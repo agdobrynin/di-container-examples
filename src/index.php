@@ -13,13 +13,11 @@ $start = microtime(true);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$container = DiContainerFactory::make(
+    require __DIR__ . '/di_config.php'
+);
 
-$definitions = require __DIR__ . '/di_config.php';
-
-$container = DiContainerFactory::make($definitions);
-
-$header = static fn(string $title) => PHP_EOL . $title . PHP_EOL .
-    str_repeat('-', 20) . PHP_EOL;
+$header = static fn(string $title) => "\n🧪 {$title}\n " . str_repeat('-', 20) . "\n";
 
 (static function (ClassUsers $classUsers, string $name) use ($header) {
     print $header('Testcase #1');
