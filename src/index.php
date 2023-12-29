@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-use DiContainerExample\App\Classes\ClassInterface;
-use DiContainerExample\App\Classes\ClassUsers;
-use DiContainerExample\App\Classes\MyEmployers;
-use DiContainerExample\App\Classes\MyLogger;
-use DiContainerExample\App\Classes\MyUsers;
-use DiContainerExample\App\Classes\Zerro\MainClass;
+use App\Classes\ClassInterface;
+use App\Classes\ClassUsers;
+use App\Classes\MyEmployers;
+use App\Classes\MyLogger;
+use App\Classes\MyUsers;
+use App\Classes\Zero\MainClass;
 use Kaspi\DiContainer\DiContainerFactory;
 use Psr\Log\LoggerInterface;
 

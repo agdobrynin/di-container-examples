@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use DiContainerExample\App\Classes\ClassFirst;
-use DiContainerExample\App\Classes\ClassInterface;
-use DiContainerExample\App\Classes\MyEmployers;
-use DiContainerExample\App\Classes\MyUsers;
+use App\Classes\ClassFirst;
+use App\Classes\ClassInterface;
+use App\Classes\MyEmployers;
+use App\Classes\MyUsers;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
