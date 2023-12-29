@@ -6,6 +6,7 @@ use DiContainerExample\App\Classes\ClassUsers;
 use DiContainerExample\App\Classes\MyEmployers;
 use DiContainerExample\App\Classes\MyLogger;
 use DiContainerExample\App\Classes\MyUsers;
+use DiContainerExample\App\Classes\Zerro\MainClass;
 use Kaspi\DiContainer\DiContainerFactory;
 use Psr\Log\LoggerInterface;
 
@@ -43,7 +44,14 @@ $header = static fn(string $title) => "\n🧪 {$title}\n " . str_repeat('-', 20)
 
 (static function (ClassInterface $class) use ($header) {
     print $header('Testcase #4');
+
     var_dump($class->file(), get_class($class));
 })($container->get(ClassInterface::class));
+
+(static function (MainClass $mainClass) use ($header) {
+    print $header('Testcase #5 - zero dependency config');
+
+    var_dump($mainClass);
+})($container->get(MainClass::class));
 
 print PHP_EOL . 'time: ' . round(microtime(true) - $start, 4) . ' sec.' . PHP_EOL;
