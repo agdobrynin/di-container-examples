@@ -1,4 +1,6 @@
+!.gitignore
+!/var/.gitkeep
+
 .idea
 /vendor
-!**/.gitkeep
 /var
