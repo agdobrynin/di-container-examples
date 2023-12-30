@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4fffc92cd8de864fea8fcef0d47de8a",
+    "content-hash": "5b0de14462ddb64bae6fe790dbf09de5",
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v1.0.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "8b6fa712534ccd6c196bb727cf3a90602757747f"
+                "reference": "2087072864ac500087d99b92efb47b4762215982"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/8b6fa712534ccd6c196bb727cf3a90602757747f",
-                "reference": "8b6fa712534ccd6c196bb727cf3a90602757747f",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/2087072864ac500087d99b92efb47b4762215982",
+                "reference": "2087072864ac500087d99b92efb47b4762215982",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v1.0.0"
+                "source": "https://github.com/agdobrynin/di-container/tree/v1.1.1"
             },
-            "time": "2023-12-29T11:07:30+00:00"
+            "time": "2023-12-30T09:37:35+00:00"
         },
         {
             "name": "monolog/monolog",

@@ -5,6 +5,7 @@ use App\Classes\ClassFirst;
 use App\Classes\ClassInterface;
 use App\Classes\MyEmployers;
 use App\Classes\MyUsers;
+use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -27,19 +28,21 @@ return [
         ],
     ],
 
-    LoggerInterface::class => static function (string $loggerName, string $logFile) {
-        return new Logger($loggerName, [new StreamHandler($logFile)]);
+    LoggerInterface::class => static function (DiContainerInterface $container) {
+        return new Logger(
+            name: $container->get('logger.name'),
+            handlers: [new StreamHandler(stream: $container->get('logger.file'))]);
     },
 
     ClassInterface::class => ClassFirst::class,
 
     ClassFirst::class => [
         'arguments' => [
-            'file' => '@logFile'
+            'file' => '@logger.file'
         ],
     ],
     // simple data
     'data' => ['user1', 'user2'],
-    'logFile' => __DIR__ . '/../var/log.log',
-    'loggerName' => 'app-logger',
+    'logger.file' => __DIR__ . '/../var/log.log',
+    'logger.name' => 'app-logger',
 ];
