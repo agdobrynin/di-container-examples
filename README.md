@@ -5,7 +5,12 @@
 composer install
 ```
 
-Для запуска примеров c ручным определением зависимостей:
+Для запуска примеров с ручным определением зависимостей:
 ```shell
 php src/di/index.php
+```
+
+Для запуска примеров с определением через PHP Attributes:
+```shell
+php src/attributes/index.php
 ```

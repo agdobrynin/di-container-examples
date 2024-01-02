@@ -2,8 +2,10 @@
   "name": "agdobrynin/di_container_example",
   "autoload": {
     "psr-4": {
-      "Di\\": "src/di"
-    }
+      "Di\\": "src/di",
+      "Attributes\\": "src/attributes"
+    },
+    "files": ["src/functions.php"]
   },
   "authors": [
     {
