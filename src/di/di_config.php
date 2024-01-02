@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Classes\ClassFirst;
-use App\Classes\ClassInterface;
-use App\Classes\MyEmployers;
-use App\Classes\MyUsers;
+use Di\Classes\ClassFirst;
+use Di\Classes\ClassInterface;
+use Di\Classes\MyEmployers;
+use Di\Classes\MyUsers;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 return [
     \PDO::class => [
         'arguments' => [
-            'dsn' => 'sqlite:' . __DIR__ . '/../var/data.db',
+            'dsn' => 'sqlite:' . __DIR__ . '/../../var/data.db',
         ],
     ],
 
@@ -43,6 +43,6 @@ return [
     ],
     // simple data
     'data' => ['user1', 'user2'],
-    'logger.file' => __DIR__ . '/../var/log.log',
+    'logger.file' => __DIR__ . '/../../var/log.log',
     'logger.name' => 'app-logger',
 ];

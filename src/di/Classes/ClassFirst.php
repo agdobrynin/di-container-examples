@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Classes;
+namespace Di\Classes;
 
 class ClassFirst implements ClassInterface
 {

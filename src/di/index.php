@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-use App\Classes\ClassInterface;
-use App\Classes\ClassUsers;
-use App\Classes\MyEmployers;
-use App\Classes\MyLogger;
-use App\Classes\MyUsers;
-use App\Classes\Zero\MainClass;
+use Di\Classes\ClassInterface;
+use Di\Classes\ClassUsers;
+use Di\Classes\MyEmployers;
+use Di\Classes\MyLogger;
+use Di\Classes\MyUsers;
+use Di\Classes\Zero\MainClass;
 use Kaspi\DiContainer\DiContainerFactory;
 use Psr\Log\LoggerInterface;
 
 $start = microtime(true);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $container = DiContainerFactory::make(
     require __DIR__ . '/di_config.php'

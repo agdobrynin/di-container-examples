@@ -5,7 +5,7 @@
 composer install
 ```
 
-Для запуска примеров:
+Для запуска примеров c ручным определением зависимостей:
 ```shell
-php src/index.php
+php src/di/index.php
 ```

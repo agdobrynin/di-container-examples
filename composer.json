@@ -2,7 +2,7 @@
   "name": "agdobrynin/di_container_example",
   "autoload": {
     "psr-4": {
-      "App\\": "src/app"
+      "Di\\": "src/di"
     }
   },
   "authors": [
