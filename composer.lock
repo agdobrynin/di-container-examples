@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd276f3461c3bb8f8d57204c764c6e5f",
+    "content-hash": "2fe6537a3c9d15e7ea202267b432c527",
     "packages": [
         {
             "name": "kaspi/di-container",
@@ -998,7 +998,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*",
         "php": ">=8.1"
     },
     "platform-dev": [],
