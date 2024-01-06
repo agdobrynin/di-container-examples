@@ -2,4 +2,4 @@
 /vendor
 !.gitignore
 !/**/.gitkeep
-/var/*
+var/*
