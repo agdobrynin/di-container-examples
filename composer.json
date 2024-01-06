@@ -1,0 +1,27 @@
+{
+  "name": "agdobrynin/di_container_example",
+  "autoload": {
+    "psr-4": {
+      "Di\\": "src/di",
+      "Attributes\\": "src/attributes"
+    },
+    "files": ["src/functions.php"]
+  },
+  "authors": [
+    {
+      "name": "Alexey Dobrynin",
+      "email": "ag.dobrynin@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*",
+    "php": ">=8.1",
+    "psr/log": "^3.0",
+    "monolog/monolog": "^3.5",
+    "kaspi/di-container": "^1.0"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  }
+}

@@ -1,0 +1,13 @@
+services:
+    php:
+        build:
+            dockerfile: Dockerfile
+            args:
+                UID:  ${UID:-1000}
+                GID: ${GID:-1000}
+                APP_DIR: ${APP_DIR:-/app}
+        environment:
+            UID: 1000
+            GID: 1000
+        volumes:
+            - .:${APP_DIR:-/app}
