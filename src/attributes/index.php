@@ -9,7 +9,7 @@ use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
 use Kaspi\DiContainer\DiContainerFactory;
 
-$container = DiContainerFactory::make(
+$container = (new DiContainerFactory())->make(
     require __DIR__ . '/di_config.php'
 );
 

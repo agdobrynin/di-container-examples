@@ -11,7 +11,7 @@ use Di\Classes\Zero\MainClass;
 use Kaspi\DiContainer\DiContainerFactory;
 use Psr\Log\LoggerInterface;
 
-$container = DiContainerFactory::make(
+$container = (new DiContainerFactory())->make(
     require __DIR__ . '/di_config.php'
 );
 
