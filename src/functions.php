@@ -16,7 +16,7 @@ if (!function_exists('test_group')) {
         ob_start(static fn(string $buffer) => preg_replace(['/\n/'], "\n\t", $buffer));
         $closure();
         ob_end_flush();
-        print test_title(icon: '✅', times: 60);
+        print test_title(icon: '🏁', times: 60);
     }
 }
 

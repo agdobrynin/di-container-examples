@@ -18,6 +18,8 @@ $container = (new DiContainerFactory())->make(
     print test_title('Test # 1 resolve build on argument');
 
     assert($myClass->pdo instanceof PDO);
+
+    print test_title('Success', '✅', 0);
 })($container->get(MyClass::class));
 
 (static function (MyUsers $myUsers, MyEmployers $myEmployers) {
@@ -25,6 +27,8 @@ $container = (new DiContainerFactory())->make(
 
     assert(['user1', 'user2'] === $myUsers->users);
     assert(['user1', 'user2'] === $myEmployers->employers);
+
+    print test_title('Success', '✅', 0);
 })($container->get(MyUsers::class), $container->get(MyEmployers::class));
 
 (static function (MyLogger $myLogger) {
@@ -35,4 +39,6 @@ $container = (new DiContainerFactory())->make(
     assert($myLogger->customLogger->loggerFile() ===  __DIR__.'/../../var/app.log');
 
     $myLogger->logger->debug('Yes!');
+
+    print test_title('Success', '✅', 0);
 })($container->get(MyLogger::class));

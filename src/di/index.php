@@ -26,6 +26,8 @@ $rand = mt_rand();
 
     assert($classUsers->addUser($name));
     assert(preg_match('/^\d+ \| John \#\d+$/', join(' | ', $classUsers->getUser($name))));
+
+    print test_title('Success', '✅', 0);
 })($container->get(ClassUsers::class), 'John #' . $rand);
 
 (static function (MyUsers $users, MyEmployers $employers) {
@@ -33,21 +35,27 @@ $rand = mt_rand();
 
     assert($users->users === ['user1', 'user2']);
     assert($employers->employers === ['user1', 'user2']);
+
+    print test_title('Success', '✅', 0);
 })($container->get(MyUsers::class), $container->get(MyEmployers::class));
 
 (static function (MyLogger $myLogger) {
-    print \test_title('Testcase #3');
+    print \test_title('Testcase #3 - resolve by class');
 
     assert($myLogger->logger() instanceof LoggerInterface);
     assert($myLogger->logger()->getName() === 'app-logger');
+
+    print test_title('Success', '✅', 0);
 })($container->get(MyLogger::class));
 
 (static function (ClassInterface $class) {
-    print \test_title('Testcase #4');
+    print \test_title('Testcase #4 resolve by interface');
 
     assert($class instanceof ClassInterface);
     assert($class instanceof ClassFirst);
     assert($class->file() === __DIR__ . '/../../var/log.log');
+
+    print test_title('Success', '✅', 0);
 })($container->get(ClassInterface::class));
 
 (static function (MainClass $mainClass) {
@@ -56,6 +64,8 @@ $rand = mt_rand();
     assert($mainClass->class instanceof RequiredClass);
     assert($mainClass->class->class instanceof SubRequiredClass);
     assert(str_starts_with(($mainClass->class->class)(), 'Hello! I am class '));
+
+    print test_title('Success', '✅', 0);
 })($container->get(MainClass::class));
 
 (static function (Travel $travel) {
@@ -64,4 +74,6 @@ $rand = mt_rand();
     assert($travel->travelTo === 'Moon');
     assert($travel->travelOptions->speed === 10);
     assert($travel->travelOptions->gravity === 'low');
+
+    print test_title('Success', '✅', 0);
 })($container->get(Travel::class));
