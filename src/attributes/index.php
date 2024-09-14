@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 
+use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\MyClass;
 use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
@@ -16,24 +17,22 @@ $container = (new DiContainerFactory())->make(
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');
 
-    var_dump($myClass->pdo instanceof PDO);
+    assert($myClass->pdo instanceof PDO);
 })($container->get(MyClass::class));
 
 (static function (MyUsers $myUsers, MyEmployers $myEmployers) {
     print test_title('Test # 2 resolve build on argument');
 
-    var_dump(MyUsers::class, $myUsers->users);
-    var_dump(MyEmployers::class, $myEmployers->employers);
-
+    assert(['user1', 'user2'] === $myUsers->users);
+    assert(['user1', 'user2'] === $myEmployers->employers);
 })($container->get(MyUsers::class), $container->get(MyEmployers::class));
 
 (static function (MyLogger $myLogger) {
     print test_title('Test #3 resolve argument by interface');
 
-    var_dump(
-        $myLogger->customLogger->loggerFile(),
-        $myLogger
-    );
+    assert($myLogger instanceof MyLogger);
+    assert($myLogger->customLogger instanceof CustomLoggerInterface);
+    assert($myLogger->customLogger->loggerFile() ===  __DIR__.'/../../var/app.log');
 
     $myLogger->logger->debug('Yes!');
 })($container->get(MyLogger::class));

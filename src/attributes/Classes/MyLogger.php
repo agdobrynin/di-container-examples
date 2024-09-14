@@ -15,8 +15,8 @@ class MyLogger
         #[Inject(
             AppLogger::class,
             arguments: [
-                'name' => 'app.logger.name',
-                'file' => 'app.logger.file',
+                'name' => '@app.logger.name',
+                'file' => '@app.logger.file',
             ]
         )]
         public LoggerInterface       $logger,

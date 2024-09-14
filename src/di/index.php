@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
 use Di\Classes\MyEmployers;
@@ -8,6 +9,8 @@ use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
 use Di\Classes\Travel;
 use Di\Classes\Zero\MainClass;
+use Di\Classes\Zero\RequiredClass;
+use Di\Classes\Zero\SubRequiredClass;
 use Kaspi\DiContainer\DiContainerFactory;
 use Psr\Log\LoggerInterface;
 
@@ -15,43 +18,50 @@ $container = (new DiContainerFactory())->make(
     require __DIR__ . '/di_config.php'
 );
 
-
-(static function (ClassUsers $classUsers, string $name) {
+$rand = mt_rand();
+(static function (ClassUsers $classUsers, string $name) use ($rand) {
     print \test_title('Testcase #1');
 
     $classUsers->createTable();
 
-    if ($classUsers->addUser($name)) {
-        var_dump($classUsers->getUser($name));
-    }
-})($container->get(ClassUsers::class), 'John #' . mt_rand());
+    assert($classUsers->addUser($name));
+    assert(preg_match('/^\d+ \| John \#\d+$/', join(' | ', $classUsers->getUser($name))));
+})($container->get(ClassUsers::class), 'John #' . $rand);
 
 (static function (MyUsers $users, MyEmployers $employers) {
     print \test_title('Testcase #2');
 
-    var_dump($users, $employers);
+    assert($users->users === ['user1', 'user2']);
+    assert($employers->employers === ['user1', 'user2']);
 })($container->get(MyUsers::class), $container->get(MyEmployers::class));
 
 (static function (MyLogger $myLogger) {
     print \test_title('Testcase #3');
 
-    var_dump($myLogger->logger() instanceof LoggerInterface);
+    assert($myLogger->logger() instanceof LoggerInterface);
+    assert($myLogger->logger()->getName() === 'app-logger');
 })($container->get(MyLogger::class));
 
 (static function (ClassInterface $class) {
     print \test_title('Testcase #4');
 
-    var_dump($class->file(), get_class($class));
+    assert($class instanceof ClassInterface);
+    assert($class instanceof ClassFirst);
+    assert($class->file() === __DIR__ . '/../../var/log.log');
 })($container->get(ClassInterface::class));
 
 (static function (MainClass $mainClass) {
     print \test_title('Testcase #5 - zero dependency config');
 
-    var_dump($mainClass);
+    assert($mainClass->class instanceof RequiredClass);
+    assert($mainClass->class->class instanceof SubRequiredClass);
+    assert(str_starts_with(($mainClass->class->class)(), 'Hello! I am class '));
 })($container->get(MainClass::class));
 
 (static function (Travel $travel) {
     print \test_title('Testcase #6 - resolve by argument name');
-
-    var_dump($travel);
+    assert($travel->travelFrom === 'Earth');
+    assert($travel->travelTo === 'Moon');
+    assert($travel->travelOptions->speed === 10);
+    assert($travel->travelOptions->gravity === 'low');
 })($container->get(Travel::class));

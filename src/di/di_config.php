@@ -31,32 +31,32 @@ $config = [
 $definitions = [
     \PDO::class => [
         'arguments' => [
-            'dsn' => 'sqlite-dsn',
+            'dsn' => '@sqlite-dsn',
         ],
     ],
 
     MyUsers::class => [
         'arguments' => [
-            'users' => 'app.shared.users',
+            'users' => '@app.shared.users',
         ],
     ],
     MyEmployers::class => [
         'arguments' => [
-            'employers' => 'app.shared.users',
+            'employers' => '@app.shared.users',
         ],
     ],
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
-            name: $container->get('app.logger.name'),
-            handlers: [new StreamHandler(stream: $container->get('app.logger.file'))]);
+            name: $container->get('@app.logger.name'),
+            handlers: [new StreamHandler(stream: $container->get('@app.logger.file'))]);
     },
 
     ClassInterface::class => ClassFirst::class,
 
     ClassFirst::class => [
         'arguments' => [
-            'file' => 'app.logger.file'
+            'file' => '@app.logger.file'
         ],
     ],
 ];

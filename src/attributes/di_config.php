@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'pdo_dsn' => 'app.sqlite_dsn',
+    'pdo_dsn' => '@app.sqlite_dsn',
     'app' => [
         'sqlite_dsn' => 'sqlite:'.__DIR__.'/../../var/database.db',
         'shared' => [
