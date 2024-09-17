@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
+use Di\Classes\DiFactoryPerson;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyUsers;
+use Di\Classes\Person;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -59,6 +61,8 @@ $definitions = [
             'file' => '@app.logger.file'
         ],
     ],
+
+    Person::class => DiFactoryPerson::class
 ];
 
 return array_merge($config, $definitions);

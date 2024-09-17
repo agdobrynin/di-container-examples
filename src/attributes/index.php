@@ -8,6 +8,7 @@ use Attributes\Classes\MyClass;
 use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
+use Attributes\Classes\Person;
 use Kaspi\DiContainer\DiContainerFactory;
 
 $container = (new DiContainerFactory())->make(
@@ -42,3 +43,13 @@ $container = (new DiContainerFactory())->make(
 
     print test_title('Success', '✅', 0);
 })($container->get(MyLogger::class));
+
+(static function (Person $person) {
+    print test_title('Test #4 resolve by DiFactoryInterface with php attributes');
+
+    assert($person->name === 'Piter');
+    assert($person->surname === 'Good');
+    assert($person->age ===  30);
+
+    print test_title('Success', '✅', 0);
+})($container->get(Person::class));

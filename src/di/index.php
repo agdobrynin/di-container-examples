@@ -7,6 +7,7 @@ use Di\Classes\ClassUsers;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
+use Di\Classes\Person;
 use Di\Classes\Travel;
 use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
@@ -77,3 +78,12 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container->get(Travel::class));
+
+(static function (Person $person) {
+    print \test_title('Testcase #7 - resolve by DiFactoryInterface');
+    assert($person->name === 'Piter');
+    assert($person->age === 22);
+
+    print test_title('Success', '✅', 0);
+})($container->get(Person::class));
+
