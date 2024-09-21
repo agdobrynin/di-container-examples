@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 
 use Attributes\Classes\CustomLoggerInterface;
+use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
 use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
@@ -53,3 +54,14 @@ $container = (new DiContainerFactory())->make(
 
     print test_title('Success', '✅', 0);
 })($container->get(Person::class));
+
+(static function (DiFactoryOnProperty $personOnFactory) {
+    print test_title('Test #5 resolve property by DiFactoryInterface with php attributes');
+
+    assert($personOnFactory->person->name === 'Piter');
+    assert($personOnFactory->person->surname === 'Good');
+    assert($personOnFactory->person->age ===  30);
+
+    print test_title('Success', '✅', 0);
+})($container->get(DiFactoryOnProperty::class));
+
