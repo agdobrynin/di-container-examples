@@ -9,7 +9,7 @@ use Kaspi\DiContainer\Attributes\Inject;
 class CustomLogger implements CustomLoggerInterface
 {
     public function __construct(
-        #[Inject('logger_file')]
+        #[Inject('@logger_file')]
         protected string $file,
     )
     {

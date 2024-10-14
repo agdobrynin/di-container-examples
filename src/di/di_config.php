@@ -7,6 +7,7 @@ use Di\Classes\DiFactoryPerson;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyUsers;
 use Di\Classes\Person;
+use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -14,15 +15,9 @@ use Psr\Log\LoggerInterface;
 
 $config = [
     // simple data
-    'app' => [
-        'logger' => [
-            'name' => 'app-logger',
-            'file' => __DIR__ . '/../../var/log.log',
-        ],
-        'shared' => [
-            'users' => ['user1', 'user2'],
-        ],
-    ],
+    'app.logger.name' => 'app-logger',
+    'app.logger.file' => __DIR__ . '/../../var/log.log',
+    'app.shared.users' => ['user1', 'user2'],
     'sqlite-dsn' => 'sqlite:' . __DIR__ . '/../../var/data.db',
     'travelFrom' => 'Earth',
     'travelTo' => 'Moon',
@@ -50,8 +45,8 @@ $definitions = [
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
-            name: $container->get('@app.logger.name'),
-            handlers: [new StreamHandler(stream: $container->get('@app.logger.file'))]);
+            name: $container->get('app.logger.name'),
+            handlers: [new StreamHandler(stream: $container->get('app.logger.file'))]);
     },
 
     ClassInterface::class => ClassFirst::class,
