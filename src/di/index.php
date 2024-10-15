@@ -13,6 +13,7 @@ use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
 use Kaspi\DiContainer\DiContainerFactory;
+use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Log\LoggerInterface;
 
 $container = (new DiContainerFactory())->make(
@@ -86,4 +87,21 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container->get(Person::class));
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #8 call method');
+
+    assert($container->call([ClassFirst::class, 'file']) === __DIR__ . '/../../var/log.log');
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #9 call method by callback with autowiring');
+    $f = static fn (MyLogger $myLogger): LoggerInterface => $myLogger->logger();
+
+    assert($container->call($f) instanceof LoggerInterface);
+
+    print test_title('Success', '✅', 0);
+})($container);
 
