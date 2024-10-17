@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v2.0.3",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "a456bf139a9c1a001dae4e7495e54b2026701bfd"
+                "reference": "d724b050e2c1211e9e6e8476a663d9500c764db2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/a456bf139a9c1a001dae4e7495e54b2026701bfd",
-                "reference": "a456bf139a9c1a001dae4e7495e54b2026701bfd",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/d724b050e2c1211e9e6e8476a663d9500c764db2",
+                "reference": "d724b050e2c1211e9e6e8476a663d9500c764db2",
                 "shasum": ""
             },
             "require": {
@@ -31,6 +31,9 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/DiContainer/function.php"
+                ],
                 "psr-4": {
                     "Kaspi\\DiContainer\\": "src/DiContainer/"
                 }
@@ -56,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v2.0.3"
+                "source": "https://github.com/agdobrynin/di-container/tree/v2.1.0"
             },
-            "time": "2024-10-16T08:21:32+00:00"
+            "time": "2024-10-17T10:35:22+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -272,17 +275,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c3c55a0f6643119fa8699577cc83ca6256d98ab5"
+                "reference": "6360940d585658ef1c4965a053b6632314d4bd5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c3c55a0f6643119fa8699577cc83ca6256d98ab5",
-                "reference": "c3c55a0f6643119fa8699577cc83ca6256d98ab5",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6360940d585658ef1c4965a053b6632314d4bd5b",
+                "reference": "6360940d585658ef1c4965a053b6632314d4bd5b",
                 "shasum": ""
             },
             "conflict": {
                 "3f/pygmentize": "<1.2",
-                "admidio/admidio": "<4.3.10",
+                "admidio/admidio": "<4.3.12",
                 "adodb/adodb-php": "<=5.20.20|>=5.21,<=5.21.3",
                 "aheinze/cockpit": "<2.2",
                 "aimeos/ai-admin-graphql": ">=2022.04.1,<2022.10.10|>=2023.04.1,<2023.10.6|>=2024.04.1,<2024.04.6",
@@ -1096,7 +1099,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-11T18:06:00+00:00"
+            "time": "2024-10-16T20:05:11+00:00"
         }
     ],
     "aliases": [],
