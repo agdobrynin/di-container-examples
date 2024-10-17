@@ -41,11 +41,7 @@ $definitions = [
 
     ClassInterface::class => ClassFirst::class,
 
-    ClassFirst::class => [
-        'arguments' => [
-            'file' => '@app.logger.file'
-        ],
-    ],
+    ClassFirst::class => diDefinition(arguments: ['file' => '@app.logger.file']),
 
     Person::class => DiFactoryPerson::class
 ];
