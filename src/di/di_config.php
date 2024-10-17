@@ -12,6 +12,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use function Kaspi\DiContainer\diDefinition;
 
 $config = [
     // simple data
@@ -32,17 +33,6 @@ $definitions = [
         ],
     ],
 
-    MyUsers::class => [
-        'arguments' => [
-            'users' => '@app.shared.users',
-        ],
-    ],
-    MyEmployers::class => [
-        'arguments' => [
-            'employers' => '@app.shared.users',
-        ],
-    ],
-
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
             name: $container->get('app.logger.name'),
@@ -59,5 +49,9 @@ $definitions = [
 
     Person::class => DiFactoryPerson::class
 ];
+
+// use helper.
+$definitions += diDefinition(containerKey: MyUsers::class, definition: MyUsers::class, arguments: ['users' => '@app.shared.users']);
+$definitions += diDefinition(containerKey: MyEmployers::class, definition: MyEmployers::class, arguments: ['employers' => '@app.shared.users']);
 
 return array_merge($config, $definitions);
