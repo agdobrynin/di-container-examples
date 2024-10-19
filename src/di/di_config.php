@@ -7,7 +7,7 @@ use Di\Classes\DiFactoryPerson;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyUsers;
 use Di\Classes\Person;
-use Kaspi\DiContainer\Interfaces\DiContainerInterface;
+use Di\Classes\Travel;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -20,9 +20,6 @@ $config = [
     'app.logger.file' => __DIR__ . '/../../var/log.log',
     'app.shared.users' => ['user1', 'user2'],
     'sqlite-dsn' => 'sqlite:' . __DIR__ . '/../../var/data.db',
-    'travelFrom' => 'Earth',
-    'travelTo' => 'Moon',
-    'travelOptions' => (object) ['speed' => 10, 'gravity' => 'low'],
 ];
 
 
@@ -43,7 +40,13 @@ $definitions = [
 
     ClassFirst::class => diDefinition(arguments: ['file' => '@app.logger.file']),
 
-    Person::class => DiFactoryPerson::class
+    Person::class => DiFactoryPerson::class,
+
+    Travel::class => diDefinition(arguments: [
+        'travelFrom' => 'Earth',
+        'travelTo' => 'Moon',
+        'travelOptions' => (object) ['speed' => 10, 'gravity' => 'low'],
+    ]),
 ];
 
 // use helper.
