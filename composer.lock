@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "d724b050e2c1211e9e6e8476a663d9500c764db2"
+                "reference": "3367c76f4b6c2e88cac8f21b83a40499e083e8fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/d724b050e2c1211e9e6e8476a663d9500c764db2",
-                "reference": "d724b050e2c1211e9e6e8476a663d9500c764db2",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/3367c76f4b6c2e88cac8f21b83a40499e083e8fd",
+                "reference": "3367c76f4b6c2e88cac8f21b83a40499e083e8fd",
                 "shasum": ""
             },
             "require": {
@@ -59,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v2.1.0"
+                "source": "https://github.com/agdobrynin/di-container/tree/v2.2.0"
             },
-            "time": "2024-10-17T10:35:22+00:00"
+            "time": "2024-10-18T17:16:55+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -275,12 +275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "6360940d585658ef1c4965a053b6632314d4bd5b"
+                "reference": "2db4b93f047a03be06ec0a890d252e1c8c635f74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6360940d585658ef1c4965a053b6632314d4bd5b",
-                "reference": "6360940d585658ef1c4965a053b6632314d4bd5b",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/2db4b93f047a03be06ec0a890d252e1c8c635f74",
+                "reference": "2db4b93f047a03be06ec0a890d252e1c8c635f74",
                 "shasum": ""
             },
             "conflict": {
@@ -794,7 +794,7 @@
                 "rap2hpoutre/laravel-log-viewer": "<0.13",
                 "react/http": ">=0.7,<1.9",
                 "really-simple-plugins/complianz-gdpr": "<6.4.2",
-                "redaxo/source": "<=5.15.1",
+                "redaxo/source": "<=5.17.1",
                 "remdex/livehelperchat": "<4.29",
                 "reportico-web/reportico": "<=8.1",
                 "rhukster/dom-sanitizer": "<1.0.7",
@@ -868,7 +868,7 @@
                 "subhh/libconnect": "<7.0.8|>=8,<8.1",
                 "sukohi/surpass": "<1",
                 "sulu/form-bundle": ">=2,<2.5.3",
-                "sulu/sulu": "<1.6.44|>=2,<2.6.5",
+                "sulu/sulu": "<1.6.44|>=2,<2.5.21|>=2.6,<2.6.5",
                 "sumocoders/framework-user-bundle": "<1.4",
                 "superbig/craft-audit": "<3.0.2",
                 "swag/paypal": "<5.4.4",
@@ -1099,7 +1099,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-16T20:05:11+00:00"
+            "time": "2024-10-18T15:05:15+00:00"
         }
     ],
     "aliases": [],

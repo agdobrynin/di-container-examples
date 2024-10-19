@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 
+use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -11,6 +12,8 @@ use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
 use Kaspi\DiContainer\DiContainerFactory;
+use Kaspi\DiContainer\Exception\CallCircularDependency;
+use Psr\Container\ContainerInterface;
 
 $container = (new DiContainerFactory())->make(
     require __DIR__ . '/di_config.php'
@@ -65,3 +68,12 @@ $container = (new DiContainerFactory())->make(
     print test_title('Success', '✅', 0);
 })($container->get(DiFactoryOnProperty::class));
 
+(static function (ContainerInterface $container) {
+    print \test_title('Testcase #6 catch circular call when resolve via interface.');
+
+    try {
+        $container->get(Circular::class);
+    } catch (CallCircularDependency) {
+        print test_title('Success', '✅', 0);
+    }
+})($container);

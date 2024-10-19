@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Di\Classes\Circular\CircularFirstClass;
 use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
@@ -13,6 +14,7 @@ use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
 use Kaspi\DiContainer\DiContainerFactory;
+use Kaspi\DiContainer\Exception\CallCircularDependency;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -103,5 +105,15 @@ $rand = mt_rand();
     assert($container->call($f) instanceof LoggerInterface);
 
     print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #10 catch circular call.');
+
+    try {
+        $container->get(CircularFirstClass::class);
+    } catch (CallCircularDependency) {
+        print test_title('Success', '✅', 0);
+    }
 })($container);
 
