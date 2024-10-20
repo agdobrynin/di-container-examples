@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v2.2.1",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "744e42da8627862bde53cfc4ade6ebb91984a3b0"
+                "reference": "1c4b1dda79381d65810767a7bcfce08a62d3fad5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/744e42da8627862bde53cfc4ade6ebb91984a3b0",
-                "reference": "744e42da8627862bde53cfc4ade6ebb91984a3b0",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/1c4b1dda79381d65810767a7bcfce08a62d3fad5",
+                "reference": "1c4b1dda79381d65810767a7bcfce08a62d3fad5",
                 "shasum": ""
             },
             "require": {
@@ -59,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v2.2.1"
+                "source": "https://github.com/agdobrynin/di-container/tree/v2.2.3"
             },
-            "time": "2024-10-19T10:42:50+00:00"
+            "time": "2024-10-20T17:32:42+00:00"
         },
         {
             "name": "monolog/monolog",
