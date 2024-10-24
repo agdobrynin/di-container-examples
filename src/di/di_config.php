@@ -47,6 +47,10 @@ $definitions = [
         'travelTo' => 'Moon',
         'travelOptions' => (object) ['speed' => 10, 'gravity' => 'low'],
     ]),
+    // test non type hint argument name for Di\Classes\ClassWithEmptyType::class
+    'dependency' => static function (ContainerInterface $container) {
+        return $container->get(Travel::class);
+    },
 ];
 
 // use helper.

@@ -5,6 +5,7 @@ use Di\Classes\Circular\CircularFirstClass;
 use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
+use Di\Classes\ClassWithEmptyType;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
@@ -115,5 +116,11 @@ $rand = mt_rand();
     } catch (CallCircularDependency) {
         print test_title('Success', '✅', 0);
     }
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #11 resolve non type hint argument.');
+
+    assert($container->get(ClassWithEmptyType::class)->dependency instanceof Travel);
 })($container);
 
