@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 
 use Attributes\Classes\Circular\Circular;
+use Attributes\Classes\ClassWithUnionType;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -13,6 +14,7 @@ use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependency;
+use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Container\ContainerInterface;
 
 $container = (new DiContainerFactory())->make(
@@ -76,4 +78,13 @@ $container = (new DiContainerFactory())->make(
     } catch (CallCircularDependency) {
         print test_title('Success', '✅', 0);
     }
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #7 testcase for union type hint.');
+    print \test_title('Get first type hint from union type hint.', 'ℹ ', 0);
+
+    assert($container->get(ClassWithUnionType::class)->dependency instanceof MyUsers);
+
+    print test_title('Success', '✅', 0);
 })($container);

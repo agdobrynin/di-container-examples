@@ -122,5 +122,7 @@ $rand = mt_rand();
     print \test_title('Testcase #11 resolve non type hint argument.');
 
     assert($container->get(ClassWithEmptyType::class)->dependency instanceof Travel);
+
+    print test_title('Success', '✅', 0);
 })($container);
 
