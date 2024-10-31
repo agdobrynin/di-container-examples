@@ -6,6 +6,7 @@ use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
 use Di\Classes\ClassWithEmptyType;
+use Di\Classes\ClassWithUnionType;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
@@ -125,4 +126,13 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #12 resolve from union type.');
+
+    assert($container->get(ClassWithUnionType::class)->dependency instanceof MyUsers);
+
+    print test_title('Success', '✅', 0);
+})($container);
+
 

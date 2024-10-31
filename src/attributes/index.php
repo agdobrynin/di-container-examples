@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\ClassWithUnionType;
+use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -85,6 +86,16 @@ $container = (new DiContainerFactory())->make(
     print \test_title('Get first type hint from union type hint.', 'ℹ ', 0);
 
     assert($container->get(ClassWithUnionType::class)->dependency instanceof MyUsers);
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #8 testcase for union type hint with Inject attribute.');
+    print \test_title('Get injected type from union type hint.', 'ℹ ', 0);
+
+    assert($container->get(ClassWithUnionTypeByInject::class)->dependency instanceof MyEmployers);
 
     print test_title('Success', '✅', 0);
 })($container);
