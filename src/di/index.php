@@ -12,6 +12,8 @@ use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
 use Di\Classes\Person;
 use Di\Classes\Travel;
+use Di\Classes\Variadic\RuleEngine;
+use Di\Classes\Variadic\RuleException;
 use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
@@ -31,7 +33,7 @@ $rand = mt_rand();
     $classUsers->createTable();
 
     assert($classUsers->addUser($name));
-    assert(preg_match('/^\d+ \| John \#\d+$/', join(' | ', $classUsers->getUser($name))));
+    assert(preg_match('/^\d+ \| John #\d+$/', implode(' | ', $classUsers->getUser($name))));
 
     print test_title('Success', '✅', 0);
 })($container->get(ClassUsers::class), 'John #' . $rand);
@@ -135,4 +137,33 @@ $rand = mt_rand();
     print test_title('Success', '✅', 0);
 })($container);
 
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #13 variadic arguments.');
 
+    try {
+        $container->get(RuleEngine::class)->validate('a@a.com');
+    } catch (RuleException $exception) {
+        \assert($exception->getMessage() === 'Length must be between 10 and 100.');
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    try {
+        $container->get(RuleEngine::class)->validate('   a@a.com       ');
+    } catch (RuleException $exception) {
+        \assert($exception->getMessage() === 'Length must be between 10 and 100.');
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    try {
+        $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
+    } catch (RuleException $exception) {
+        \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));
+    print test_title('valid', '     ✔ ', 0);
+
+
+    print test_title('Success', '✅', 0);
+})($container);

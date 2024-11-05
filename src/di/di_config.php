@@ -8,6 +8,11 @@ use Di\Classes\MyEmployers;
 use Di\Classes\MyUsers;
 use Di\Classes\Person;
 use Di\Classes\Travel;
+use Di\Classes\Variadic\RuleEmail;
+use Di\Classes\Variadic\RuleEngine;
+use Di\Classes\Variadic\RuleMinMax;
+use Di\Classes\Variadic\RuleTrim;
+use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -51,6 +56,22 @@ $definitions = [
     'dependency' => static function (ContainerInterface $container) {
         return $container->get(Travel::class);
     },
+    // Variadic arguments
+    RuleMinMax::class => [
+        DiContainerInterface::ARGUMENTS => [
+            'min' => 10,
+            'max' => 100,
+        ],
+    ],
+    RuleEngine::class => [
+        DiContainerInterface::ARGUMENTS => [
+            'rule' => [
+                RuleTrim::class,
+                RuleMinMax::class,
+                RuleEmail::class,
+            ],
+        ],
+    ],
 ];
 
 // use helper.

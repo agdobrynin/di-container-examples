@@ -13,6 +13,8 @@ use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
+use Attributes\Classes\Variadic\RuleEngine;
+use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependency;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
@@ -96,6 +98,36 @@ $container = (new DiContainerFactory())->make(
     print \test_title('Get injected type from union type hint.', 'ℹ ', 0);
 
     assert($container->get(ClassWithUnionTypeByInject::class)->dependency instanceof MyEmployers);
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #9 variadic arguments.');
+
+    try {
+        $container->get(RuleEngine::class)->validate('a@a.com');
+    } catch (RuleException $exception) {
+        \assert($exception->getMessage() === 'Length must be between 10 and 100.');
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    try {
+        $container->get(RuleEngine::class)->validate('   a@a.com       ');
+    } catch (RuleException $exception) {
+        \assert($exception->getMessage() === 'Length must be between 10 and 100.');
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    try {
+        $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
+    } catch (RuleException $exception) {
+        \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
+        print test_title('catch ', '     🌵', 0);
+    }
+
+    \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));
+    print test_title('valid', '     ✔ ', 0);
 
     print test_title('Success', '✅', 0);
 })($container);
