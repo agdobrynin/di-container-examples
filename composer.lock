@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v2.7.5",
+            "version": "v2.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "cda9fee7b1582a7ee8a3b8424b72f700cd31618f"
+                "reference": "93c6d6e57625ffd6609634092f9d56ac8a1c8b3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/cda9fee7b1582a7ee8a3b8424b72f700cd31618f",
-                "reference": "cda9fee7b1582a7ee8a3b8424b72f700cd31618f",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/93c6d6e57625ffd6609634092f9d56ac8a1c8b3d",
+                "reference": "93c6d6e57625ffd6609634092f9d56ac8a1c8b3d",
                 "shasum": ""
             },
             "require": {
@@ -59,22 +59,22 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v2.7.5"
+                "source": "https://github.com/agdobrynin/di-container/tree/v2.7.6"
             },
-            "time": "2024-11-13T08:27:13+00:00"
+            "time": "2024-11-13T13:56:58+00:00"
         },
         {
             "name": "monolog/monolog",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "f4393b648b78a5408747de94fca38beb5f7e9ef8"
+                "reference": "32e515fdc02cdafbe4593e30a9350d486b125b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f4393b648b78a5408747de94fca38beb5f7e9ef8",
-                "reference": "f4393b648b78a5408747de94fca38beb5f7e9ef8",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/32e515fdc02cdafbe4593e30a9350d486b125b67",
+                "reference": "32e515fdc02cdafbe4593e30a9350d486b125b67",
                 "shasum": ""
             },
             "require": {
@@ -94,12 +94,14 @@
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "phpstan/phpstan": "^1.9",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-strict-rules": "^1.4",
-                "phpunit/phpunit": "^10.5.17",
+                "php-console/php-console": "^3.1.8",
+                "phpstan/phpstan": "^2",
+                "phpstan/phpstan-deprecation-rules": "^2",
+                "phpstan/phpstan-strict-rules": "^2",
+                "phpunit/phpunit": "^10.5.17 || ^11.0.7",
                 "predis/predis": "^1.1 || ^2",
-                "ruflin/elastica": "^7",
+                "rollbar/rollbar": "^4.0",
+                "ruflin/elastica": "^7 || ^8",
                 "symfony/mailer": "^5.4 || ^6",
                 "symfony/mime": "^5.4 || ^6"
             },
@@ -150,7 +152,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/3.7.0"
+                "source": "https://github.com/Seldaek/monolog/tree/3.8.0"
             },
             "funding": [
                 {
@@ -162,7 +164,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-28T09:40:51+00:00"
+            "time": "2024-11-12T13:57:08+00:00"
         },
         {
             "name": "psr/container",
@@ -275,12 +277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "e63317470a1b96346be224a68f9e64567e1001c3"
+                "reference": "7643106bdba2fda72ee6f586a74a231155901935"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e63317470a1b96346be224a68f9e64567e1001c3",
-                "reference": "e63317470a1b96346be224a68f9e64567e1001c3",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7643106bdba2fda72ee6f586a74a231155901935",
+                "reference": "7643106bdba2fda72ee6f586a74a231155901935",
                 "shasum": ""
             },
             "conflict": {
@@ -599,7 +601,7 @@
                 "lara-zeus/artemis": ">=1,<=1.0.6",
                 "lara-zeus/dynamic-dashboard": ">=3,<=3.0.1",
                 "laravel/fortify": "<1.11.1",
-                "laravel/framework": "<6.20.44|>=7,<7.30.6|>=8,<8.75",
+                "laravel/framework": "<6.20.45|>=7,<7.30.7|>=8,<8.83.28|>=9,<9.52.17|>=10,<10.48.23|>=11,<11.31",
                 "laravel/laravel": ">=5.4,<5.4.22",
                 "laravel/reverb": "<1.4",
                 "laravel/socialite": ">=1,<2.0.10",
@@ -657,7 +659,7 @@
                 "mojo42/jirafeau": "<4.4",
                 "mongodb/mongodb": ">=1,<1.9.2",
                 "monolog/monolog": ">=1.8,<1.12",
-                "moodle/moodle": "<4.3.6|>=4.4.0.0-beta,<4.4.2",
+                "moodle/moodle": "<4.3.6|>=4.4,<4.4.2",
                 "mos/cimage": "<0.7.19",
                 "movim/moxl": ">=0.8,<=0.10",
                 "movingbytes/social-network": "<=1.2.1",
@@ -705,7 +707,7 @@
                 "openmage/magento-lts": "<20.10.1",
                 "opensolutions/vimbadmin": "<=3.0.15",
                 "opensource-workshop/connect-cms": "<1.7.2|>=2,<2.3.2",
-                "orchid/platform": ">=9,<9.4.4|>=14.0.0.0-alpha4,<14.5",
+                "orchid/platform": ">=8,<14.43",
                 "oro/calendar-bundle": ">=4.2,<=4.2.6|>=5,<=5.0.6|>=5.1,<5.1.1",
                 "oro/commerce": ">=4.1,<5.0.11|>=5.1,<5.1.1",
                 "oro/crm": ">=1.7,<1.7.4|>=3.1,<4.1.17|>=4.2,<4.2.7",
@@ -1108,7 +1110,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-07T19:04:57+00:00"
+            "time": "2024-11-12T23:05:16+00:00"
         }
     ],
     "aliases": [],
