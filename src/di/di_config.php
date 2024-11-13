@@ -17,7 +17,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use function Kaspi\DiContainer\diDefinition;
 
 $config = [
     // simple data
@@ -43,15 +42,15 @@ $definitions = [
 
     ClassInterface::class => ClassFirst::class,
 
-    ClassFirst::class => diDefinition(arguments: ['file' => '@app.logger.file']),
+    ClassFirst::class => [DiContainerInterface::ARGUMENTS => ['file' => '@app.logger.file']],
 
     Person::class => DiFactoryPerson::class,
 
-    Travel::class => diDefinition(arguments: [
+    Travel::class => [DiContainerInterface::ARGUMENTS => [
         'travelFrom' => 'Earth',
         'travelTo' => 'Moon',
         'travelOptions' => (object) ['speed' => 10, 'gravity' => 'low'],
-    ]),
+    ]],
     // test non type hint argument name for Di\Classes\ClassWithEmptyType::class
     'dependency' => static function (ContainerInterface $container) {
         return $container->get(Travel::class);
@@ -75,7 +74,7 @@ $definitions = [
 ];
 
 // use helper.
-$definitions += diDefinition(containerKey: MyUsers::class, arguments: ['users' => '@app.shared.users']);
-$definitions += diDefinition(containerKey: MyEmployers::class, arguments: ['employers' => '@app.shared.users']);
+$definitions += [MyUsers::class => [DiContainerInterface::ARGUMENTS => ['users' => '@app.shared.users']]];
+$definitions += [MyEmployers::class => [DiContainerInterface::ARGUMENTS => ['employers' => '@app.shared.users']]];
 
 return array_merge($config, $definitions);
