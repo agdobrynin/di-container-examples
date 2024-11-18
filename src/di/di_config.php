@@ -12,11 +12,11 @@ use Di\Classes\Variadic\RuleEmail;
 use Di\Classes\Variadic\RuleEngine;
 use Di\Classes\Variadic\RuleMinMax;
 use Di\Classes\Variadic\RuleTrim;
-use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use function Kaspi\DiContainer\diAutowire;
 
 $config = [
     // simple data
@@ -28,11 +28,8 @@ $config = [
 
 
 $definitions = [
-    \PDO::class => [
-        'arguments' => [
-            'dsn' => '@sqlite-dsn',
-        ],
-    ],
+    diAutowire(\PDO::class)
+        ->addArgument('dsn', '@sqlite-dsn'),
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
@@ -42,39 +39,34 @@ $definitions = [
 
     ClassInterface::class => ClassFirst::class,
 
-    ClassFirst::class => [DiContainerInterface::ARGUMENTS => ['file' => '@app.logger.file']],
+    ClassFirst::class => diAutowire(ClassFirst::class, ['file' => '@app.logger.file']),
 
-    Person::class => DiFactoryPerson::class,
+    Person::class => diAutowire(DiFactoryPerson::class),
 
-    Travel::class => [DiContainerInterface::ARGUMENTS => [
-        'travelFrom' => 'Earth',
-        'travelTo' => 'Moon',
-        'travelOptions' => (object) ['speed' => 10, 'gravity' => 'low'],
-    ]],
+    diAutowire(Travel::class)
+        ->addArgument('travelFrom', 'Earth')
+        ->addArgument('travelTo', 'Moon')
+        ->addArgument('travelOptions', (object) ['speed' => 10, 'gravity' => 'low']),
+
     // test non type hint argument name for Di\Classes\ClassWithEmptyType::class
     'dependency' => static function (ContainerInterface $container) {
         return $container->get(Travel::class);
     },
+
     // Variadic arguments
-    RuleMinMax::class => [
-        DiContainerInterface::ARGUMENTS => [
-            'min' => 10,
-            'max' => 100,
-        ],
-    ],
-    RuleEngine::class => [
-        DiContainerInterface::ARGUMENTS => [
-            'rule' => [
-                RuleTrim::class,
-                RuleMinMax::class,
-                RuleEmail::class,
-            ],
-        ],
-    ],
+    diAutowire(RuleMinMax::class, [
+        'min' => 10,
+        'max' => 100,
+    ]),
+    diAutowire(RuleEngine::class)
+        ->addArgument('rule', [
+            RuleTrim::class,
+            RuleMinMax::class,
+            RuleEmail::class,
+        ]),
 ];
 
-// use helper.
-$definitions += [MyUsers::class => [DiContainerInterface::ARGUMENTS => ['users' => '@app.shared.users']]];
-$definitions += [MyEmployers::class => [DiContainerInterface::ARGUMENTS => ['employers' => '@app.shared.users']]];
+$definitions[] = diAutowire(MyUsers::class, ['users' => '@app.shared.users']);
+$definitions[] = diAutowire(MyEmployers::class, ['employers' => '@app.shared.users']);
 
 return array_merge($config, $definitions);
