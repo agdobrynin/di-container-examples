@@ -66,7 +66,13 @@ $definitions = [
         ]),
 ];
 
-$definitions[] = diAutowire(MyUsers::class, ['users' => '@app.shared.users']);
-$definitions[] = diAutowire(MyEmployers::class, ['employers' => '@app.shared.users']);
 
-return array_merge($config, $definitions);
+$definitions1 = [
+    diAutowire(MyUsers::class, ['users' => '@app.shared.users'])
+];
+
+$definitions2 = [
+    diAutowire(MyEmployers::class, ['employers' => '@app.shared.users'])
+];
+
+return array_merge($config, $definitions, $definitions1, $definitions2);
