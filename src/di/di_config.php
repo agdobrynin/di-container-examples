@@ -17,7 +17,7 @@ use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use function Kaspi\DiContainer\diAutowire;
-use function Kaspi\DiContainer\diReference;
+use function Kaspi\DiContainer\diGet;
 
 $config = [
     // simple data
@@ -30,7 +30,7 @@ $config = [
 
 $definitions = [
     diAutowire(\PDO::class)
-        ->addArgument('dsn', diReference('sqlite-dsn')),
+        ->addArgument('dsn', diGet('sqlite-dsn')),
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
@@ -38,10 +38,10 @@ $definitions = [
             handlers: [new StreamHandler(stream: $container->get('app.logger.file'))]);
     },
 
-    ClassInterface::class => diReference(ClassFirst::class),
+    ClassInterface::class => diGet(ClassFirst::class),
 
     ClassFirst::class => diAutowire(ClassFirst::class)
-        ->addArgument('file', diReference('app.logger.file')),
+        ->addArgument('file', diGet('app.logger.file')),
 
     Person::class => diAutowire(DiFactoryPerson::class),
 
@@ -72,12 +72,12 @@ $definitions = [
 
 $definitions1 = [
     diAutowire(MyUsers::class)
-        ->addArgument('users', diReference('app.shared.users'))
+        ->addArgument('users', diGet('app.shared.users'))
 ];
 
 $definitions2 = [
     diAutowire(MyEmployers::class)
-        ->addArgument('employers', diReference('app.shared.users'))
+        ->addArgument('employers', diGet('app.shared.users'))
 ];
 
 return array_merge($config, $definitions, $definitions1, $definitions2);
