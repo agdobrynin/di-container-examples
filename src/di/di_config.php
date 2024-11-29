@@ -17,6 +17,7 @@ use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use function Kaspi\DiContainer\diAutowire;
+use function Kaspi\DiContainer\diReference;
 
 $config = [
     // simple data
@@ -29,7 +30,7 @@ $config = [
 
 $definitions = [
     diAutowire(\PDO::class)
-        ->addArgument('dsn', '@sqlite-dsn'),
+        ->addArgument('dsn', diReference('sqlite-dsn')),
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
@@ -37,9 +38,10 @@ $definitions = [
             handlers: [new StreamHandler(stream: $container->get('app.logger.file'))]);
     },
 
-    ClassInterface::class => ClassFirst::class,
+    ClassInterface::class => diReference(ClassFirst::class),
 
-    ClassFirst::class => diAutowire(ClassFirst::class, ['file' => '@app.logger.file']),
+    ClassFirst::class => diAutowire(ClassFirst::class)
+        ->addArgument('file', diReference('app.logger.file')),
 
     Person::class => diAutowire(DiFactoryPerson::class),
 
@@ -54,25 +56,28 @@ $definitions = [
     },
 
     // Variadic arguments
-    diAutowire(RuleMinMax::class, [
-        'min' => 10,
-        'max' => 100,
-    ]),
+    diAutowire(RuleMinMax::class)
+        ->addArguments([
+            'min' => 10,
+            'max' => 100,
+        ]),
     diAutowire(RuleEngine::class)
         ->addArgument('rule', [
-            RuleTrim::class,
-            RuleMinMax::class,
-            RuleEmail::class,
+            diAutowire(RuleTrim::class),
+            diAutowire(RuleMinMax::class),
+            diAutowire(RuleEmail::class),
         ]),
 ];
 
 
 $definitions1 = [
-    diAutowire(MyUsers::class, ['users' => '@app.shared.users'])
+    diAutowire(MyUsers::class)
+        ->addArgument('users', diReference('app.shared.users'))
 ];
 
 $definitions2 = [
-    diAutowire(MyEmployers::class, ['employers' => '@app.shared.users'])
+    diAutowire(MyEmployers::class)
+        ->addArgument('employers', diReference('app.shared.users'))
 ];
 
 return array_merge($config, $definitions, $definitions1, $definitions2);

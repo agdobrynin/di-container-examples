@@ -15,7 +15,7 @@ class RuleEngine
 
     public function __construct(
         #[Inject(RuleTrim::class)]
-        #[Inject(RuleMinMax::class, arguments: ['min' => 10, 'max' => 100])]
+        #[Inject('services.rules.rule-min-max-10-100')]
         #[Inject(RuleEmail::class)]
         RuleInterface ...$rule
     )

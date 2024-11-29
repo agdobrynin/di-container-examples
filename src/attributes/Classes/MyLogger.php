@@ -12,13 +12,7 @@ class MyLogger
     public function __construct(
         #[Inject]
         public CustomLoggerInterface $customLogger,
-        #[Inject(
-            AppLogger::class,
-            arguments: [
-                'name' => '@app.logger.name',
-                'file' => '@app.logger.file',
-            ]
-        )]
+        #[Inject(AppLogger::class)]
         public LoggerInterface       $logger,
     ) {}
 }

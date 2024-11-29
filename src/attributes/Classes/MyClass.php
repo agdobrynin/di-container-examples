@@ -9,7 +9,7 @@ use Kaspi\DiContainer\Attributes\Inject;
 class MyClass
 {
     public function __construct(
-        #[Inject(arguments: ['dsn' => '@app.sqlite-dsn'])]
+        #[Inject('app.pdo')]
         public \PDO $pdo
     ) {}
 }

@@ -18,7 +18,7 @@ use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
 use Kaspi\DiContainer\DiContainerFactory;
-use Kaspi\DiContainer\Exception\CallCircularDependency;
+use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -116,7 +116,7 @@ $rand = mt_rand();
 
     try {
         $container->get(CircularFirstClass::class);
-    } catch (CallCircularDependency) {
+    } catch (CallCircularDependencyException) {
         print test_title('Success', '✅', 0);
     }
 })($container);

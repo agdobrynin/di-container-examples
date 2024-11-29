@@ -16,13 +16,16 @@ use Attributes\Classes\Person;
 use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DiContainerFactory;
-use Kaspi\DiContainer\Exception\CallCircularDependency;
+use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Container\ContainerInterface;
 
-$container = (new DiContainerFactory())->make(
-    require __DIR__ . '/di_config.php'
+$definitions = \array_merge(
+    require __DIR__ . '/di_config.php',
+    require __DIR__ . '/di_config_services.php',
 );
+
+$container = (new DiContainerFactory())->make($definitions);
 
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');
@@ -78,7 +81,7 @@ $container = (new DiContainerFactory())->make(
 
     try {
         $container->get(Circular::class);
-    } catch (CallCircularDependency) {
+    } catch (CallCircularDependencyException) {
         print test_title('Success', '✅', 0);
     }
 })($container);
