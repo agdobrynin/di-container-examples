@@ -30,7 +30,8 @@ $config = [
 
 $definitions = [
     diAutowire(\PDO::class)
-        ->addArgument('dsn', diGet('sqlite-dsn')),
+        // bind by name
+        ->bindArguments(dsn: diGet('sqlite-dsn')),
 
     LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
@@ -41,14 +42,17 @@ $definitions = [
     ClassInterface::class => diGet(ClassFirst::class),
 
     ClassFirst::class => diAutowire(ClassFirst::class)
-        ->addArgument('file', diGet('app.logger.file')),
+        ->bindArguments(diGet('app.logger.file')),
 
     Person::class => diAutowire(DiFactoryPerson::class),
 
     diAutowire(Travel::class)
-        ->addArgument('travelFrom', 'Earth')
-        ->addArgument('travelTo', 'Moon')
-        ->addArgument('travelOptions', (object) ['speed' => 10, 'gravity' => 'low']),
+        // unsorted by name
+        ->bindArguments(
+            travelOptions: (object) ['speed' => 10, 'gravity' => 'low'],
+            travelFrom: 'Earth',
+            travelTo: 'Moon',
+        ),
 
     // test non type hint argument name for Di\Classes\ClassWithEmptyType::class
     'dependency' => static function (ContainerInterface $container) {
@@ -57,27 +61,27 @@ $definitions = [
 
     // Variadic arguments
     diAutowire(RuleMinMax::class)
-        ->addArguments([
-            'min' => 10,
-            'max' => 100,
-        ]),
+        // bind by index
+        ->bindArguments(10, 100),
     diAutowire(RuleEngine::class)
-        ->addArgument('rule', [
-            diAutowire(RuleTrim::class),
-            diAutowire(RuleMinMax::class),
-            diAutowire(RuleEmail::class),
-        ]),
+        ->bindArguments(
+            rule: [
+                diAutowire(RuleTrim::class),
+                diAutowire(RuleMinMax::class),
+                diAutowire(RuleEmail::class),
+            ]
+        ),
 ];
 
 
 $definitions1 = [
     diAutowire(MyUsers::class)
-        ->addArgument('users', diGet('app.shared.users'))
+        ->bindArguments(users: diGet('app.shared.users'))
 ];
 
 $definitions2 = [
     diAutowire(MyEmployers::class)
-        ->addArgument('employers', diGet('app.shared.users'))
+        ->bindArguments(employers: diGet('app.shared.users'))
 ];
 
 return array_merge($config, $definitions, $definitions1, $definitions2);
