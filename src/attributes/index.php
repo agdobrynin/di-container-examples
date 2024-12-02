@@ -82,8 +82,10 @@ $container = (new DiContainerFactory())->make($definitions);
     try {
         $container->get(Circular::class);
     } catch (CallCircularDependencyException) {
-        print test_title('Success', '✅', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
+
+    print test_title('Success', '✅', 0);
 })($container);
 
 (static function (DiContainerInterface $container) {
@@ -112,21 +114,21 @@ $container = (new DiContainerFactory())->make($definitions);
         $container->get(RuleEngine::class)->validate('a@a.com');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     try {
         $container->get(RuleEngine::class)->validate('   a@a.com       ');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     try {
         $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
     } catch (RuleException $exception) {
         \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));

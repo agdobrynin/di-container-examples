@@ -59,11 +59,12 @@ $definitions = [
         return $container->get(Travel::class);
     },
 
-    // Variadic arguments
     diAutowire(RuleMinMax::class)
         // bind by index
         ->bindArguments(10, 100),
+    // Variadic arguments
     diAutowire(RuleEngine::class)
+        // bind variadic by name
         ->bindArguments(
             rule: [
                 diAutowire(RuleTrim::class),
@@ -71,6 +72,15 @@ $definitions = [
                 diAutowire(RuleEmail::class),
             ]
         ),
+    'services.rules.may-rule' => diAutowire(RuleEngine::class)
+        // bind variadic by index
+        ->bindArguments(
+            // parameter at position #0
+            diAutowire(RuleTrim::class),
+            // parameter at position #1
+            diAutowire(RuleMinMax::class)
+                ->bindArguments(min: 4, max: 23)
+        )
 ];
 
 

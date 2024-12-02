@@ -138,32 +138,52 @@ $rand = mt_rand();
 })($container);
 
 (static function (DiContainerInterface $container) {
-    print \test_title('Testcase #13 variadic arguments.');
+    print \test_title('Testcase #13 variadic arguments by parameter name.');
 
     try {
         $container->get(RuleEngine::class)->validate('a@a.com');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     try {
         $container->get(RuleEngine::class)->validate('   a@a.com       ');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     try {
         $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
     } catch (RuleException $exception) {
         \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
-        print test_title('catch ', '     🌵', 0);
+        print test_title('catch exception', '     🧲', 0);
     }
 
     \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));
     print test_title('valid', '     ✔ ', 0);
 
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #14 variadic arguments by parameter index.');
+    /**
+     * @var RuleEngine $myRule
+     */
+    $myRule = $container->get('services.rules.may-rule');
+
+    \assert('my text printed' === $myRule->validate('  my text printed '));
+    print test_title('valid', '     ✔ ', 0);
+
+    try {
+        $myRule->validate('o');
+    } catch (RuleException $exception) {
+        \assert($exception->getMessage() === 'Length must be between 4 and 23.');
+        print test_title('catch exception', '     🧲', 0);
+    }
 
     print test_title('Success', '✅', 0);
 })($container);
