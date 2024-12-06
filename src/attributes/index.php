@@ -20,12 +20,14 @@ use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Container\ContainerInterface;
 
-$definitions = \array_merge(
-    require __DIR__ . '/di_config.php',
-    require __DIR__ . '/di_config_services.php',
-);
+$configImport = require __DIR__ . '/../config-import-from-files.php';
 
-$container = (new DiContainerFactory())->make($definitions);
+$container = (new DiContainerFactory())->make(
+    $configImport(
+        __DIR__ . '/config/di_config_services.php',
+        __DIR__ . '/config/di_config.php',
+    )
+);
 
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');
@@ -49,7 +51,7 @@ $container = (new DiContainerFactory())->make($definitions);
 
     assert($myLogger instanceof MyLogger);
     assert($myLogger->customLogger instanceof CustomLoggerInterface);
-    assert($myLogger->customLogger->loggerFile() ===  __DIR__.'/../../var/app.log');
+    assert($myLogger->customLogger->loggerFile() === realpath(__DIR__ . '/../../var/app.log'));
 
     $myLogger->logger->debug('Yes!');
 
@@ -61,7 +63,7 @@ $container = (new DiContainerFactory())->make($definitions);
 
     assert($person->name === 'Piter');
     assert($person->surname === 'Good');
-    assert($person->age ===  30);
+    assert($person->age === 30);
 
     print test_title('Success', '✅', 0);
 })($container->get(Person::class));
@@ -71,7 +73,7 @@ $container = (new DiContainerFactory())->make($definitions);
 
     assert($personOnFactory->person->name === 'Piter');
     assert($personOnFactory->person->surname === 'Good');
-    assert($personOnFactory->person->age ===  30);
+    assert($personOnFactory->person->age === 30);
 
     print test_title('Success', '✅', 0);
 })($container->get(DiFactoryOnProperty::class));

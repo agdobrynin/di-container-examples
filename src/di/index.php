@@ -22,9 +22,15 @@ use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Log\LoggerInterface;
 
-$container = (new DiContainerFactory())->make(
-    require __DIR__ . '/di_config.php'
+$importerFromFile = require __DIR__ . '/../config-import-from-files.php';
+$config = $importerFromFile(
+    __DIR__ . '/config/services.php',
+    __DIR__ . '/config/service_employer.php',
+    __DIR__ . '/config/service_user.php',
+    __DIR__ . '/config/simple-data.php',
 );
+
+$container = (new DiContainerFactory())->make($config);
 
 $rand = mt_rand();
 (static function (ClassUsers $classUsers, string $name) use ($rand) {
@@ -61,7 +67,7 @@ $rand = mt_rand();
 
     assert($class instanceof ClassInterface);
     assert($class instanceof ClassFirst);
-    assert($class->file() === __DIR__ . '/../../var/log.log');
+    assert($class->file() === realpath(__DIR__ . '/../../var/log.log'));
 
     print test_title('Success', '✅', 0);
 })($container->get(ClassInterface::class));
@@ -97,14 +103,14 @@ $rand = mt_rand();
 (static function (DiContainerInterface $container) {
     print \test_title('Testcase #8 call method');
 
-    assert($container->call([ClassFirst::class, 'file']) === __DIR__ . '/../../var/log.log');
+    assert($container->call([ClassFirst::class, 'file']) === realpath(__DIR__ . '/../../var/log.log'));
 
     print test_title('Success', '✅', 0);
 })($container);
 
 (static function (DiContainerInterface $container) {
     print \test_title('Testcase #9 call method by callback with autowiring');
-    $f = static fn (MyLogger $myLogger): LoggerInterface => $myLogger->logger();
+    $f = static fn(MyLogger $myLogger): LoggerInterface => $myLogger->logger();
 
     assert($container->call($f) instanceof LoggerInterface);
 

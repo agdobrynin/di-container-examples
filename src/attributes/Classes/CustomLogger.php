@@ -13,10 +13,13 @@ class CustomLogger implements CustomLoggerInterface
         protected string $file,
     )
     {
+        if (false === fopen($this->file, 'ab')) {
+            throw new \InvalidArgumentException("Cannot open '{$this->file}'");
+        }
     }
 
     public function loggerFile(): string
     {
-        return $this->file;
+        return realpath($this->file);
     }
 }
