@@ -7,6 +7,7 @@ use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
 use Di\Classes\ClassWithEmptyType;
 use Di\Classes\ClassWithUnionType;
+use Di\Classes\Collection\RuleCollection;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
@@ -28,12 +29,14 @@ $config = $importerFromFile(
     __DIR__ . '/config/service_employer.php',
     __DIR__ . '/config/service_user.php',
     __DIR__ . '/config/simple-data.php',
+    __DIR__ . '/config/service_collection.php',
 );
 
 $container = (new DiContainerFactory())->make($config);
 
 $rand = mt_rand();
-(static function (ClassUsers $classUsers, string $name) use ($rand) {
+
+(static function (ClassUsers $classUsers, string $name) {
     print \test_title('Testcase #1');
 
     $classUsers->createTable();
@@ -188,6 +191,33 @@ $rand = mt_rand();
         $myRule->validate('o');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 4 and 23.');
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #15 collection.');
+
+    $res = $container->get(RuleCollection::class)
+        ->validate('  My string with valid string  ');
+
+    \assert('My string with valid string' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #16 collection with failed validation.');
+
+    try {
+        $container->get(RuleCollection::class)
+            ->validate('\0123administrator');
+    } catch (\Di\Classes\Collection\RuleException $e) {
+        \assert(
+            $e->getMessage() === 'Invalid string. String must contain only letters. Got: \'\0123administrator\''
+        );
         print test_title('catch exception', '     🧲', 0);
     }
 
