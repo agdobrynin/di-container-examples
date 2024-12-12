@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-
 use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\ClassWithUnionType;
 use Attributes\Classes\ClassWithUnionTypeByInject;
+use Attributes\Classes\Collection\RuleCollection;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -143,7 +143,7 @@ $container = (new DiContainerFactory())->make(
 (static function (DiContainerInterface $container) {
     print \test_title('Testcase #10 Inject collection attribute.');
 
-    $res = $container->get(\Attributes\Classes\Collection\RuleCollection::class)
+    $res = $container->get(RuleCollection::class)
         ->validate('  My string with valid string  ');
 
     \assert('My string with valid string' === $res);
@@ -155,10 +155,11 @@ $container = (new DiContainerFactory())->make(
     print \test_title('Testcase #11 Inject collection attribute with failed validation.');
 
     try {
-        $res = $container->get(\Attributes\Classes\Collection\RuleCollection::class)
+        $container->get(RuleCollection::class)
             ->validate('\0123administrator');
     } catch (\Attributes\Classes\Collection\RuleException $e) {
         \assert(str_starts_with($e->getMessage(), 'Invalid string. String must contain only letters'));
+        print test_title('catch exception', '     🧲', 0);
     }
 
     print test_title('Success', '✅', 0);
