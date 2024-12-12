@@ -17,7 +17,6 @@ use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
-use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Container\ContainerInterface;
 
 $configImport = require __DIR__ . '/../config-import-from-files.php';
@@ -91,76 +90,75 @@ $container = (new DiContainerFactory())->make(
     print test_title('Success', '✅', 0);
 })($container);
 
-(static function (DiContainerInterface $container) {
+(static function (ClassWithUnionType $classWithUnionType) {
     print \test_title('Testcase #7 testcase for union type hint.');
     print \test_title('Get first type hint from union type hint.', 'ℹ ', 0);
 
-    assert($container->get(ClassWithUnionType::class)->dependency instanceof MyUsers);
+    assert($classWithUnionType->dependency instanceof MyUsers);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(ClassWithUnionType::class));
 
 
-(static function (DiContainerInterface $container) {
+(static function (ClassWithUnionTypeByInject $classWithUnionTypeByInject) {
     print \test_title('Testcase #8 testcase for union type hint with Inject attribute.');
     print \test_title('Get injected type from union type hint.', 'ℹ ', 0);
 
-    assert($container->get(ClassWithUnionTypeByInject::class)->dependency instanceof MyEmployers);
+    assert($classWithUnionTypeByInject->dependency instanceof MyEmployers);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(ClassWithUnionTypeByInject::class));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleEngine $ruleEngine) {
     print \test_title('Testcase #9 variadic arguments.');
 
     try {
-        $container->get(RuleEngine::class)->validate('a@a.com');
+        $ruleEngine->validate('a@a.com');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
         print test_title('catch exception', '     🧲', 0);
     }
 
     try {
-        $container->get(RuleEngine::class)->validate('   a@a.com       ');
+        $ruleEngine->validate('   a@a.com       ');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
         print test_title('catch exception', '     🧲', 0);
     }
 
     try {
-        $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
+        $ruleEngine->validate('Lorem ipsum dolor sit amet');
     } catch (RuleException $exception) {
         \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
         print test_title('catch exception', '     🧲', 0);
     }
 
-    \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));
+    \assert('alex.moon@gmail.com' === $ruleEngine->validate('    alex.moon@gmail.com   '));
     print test_title('valid', '     ✔ ', 0);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleEngine::class));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleCollection $ruleCollection) {
     print \test_title('Testcase #10 Inject collection attribute.');
 
-    $res = $container->get(RuleCollection::class)
+    $res = $ruleCollection
         ->validate('  My string with valid string  ');
 
     \assert('My string with valid string' === $res);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleCollection::class));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleCollection $ruleCollection) {
     print \test_title('Testcase #11 Inject collection attribute with failed validation.');
 
     try {
-        $container->get(RuleCollection::class)
-            ->validate('\0123administrator');
+        $ruleCollection->validate('\0123administrator');
     } catch (\Attributes\Classes\Collection\RuleException $e) {
         \assert(str_starts_with($e->getMessage(), 'Invalid string. String must contain only letters'));
         print test_title('catch exception', '     🧲', 0);
     }
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleCollection::class));

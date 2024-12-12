@@ -130,13 +130,13 @@ $rand = mt_rand();
     }
 })($container);
 
-(static function (DiContainerInterface $container) {
+(static function (ClassWithEmptyType $classWithEmptyType) {
     print \test_title('Testcase #11 resolve non type hint argument.');
 
-    assert($container->get(ClassWithEmptyType::class)->dependency instanceof Travel);
+    assert($classWithEmptyType->dependency instanceof Travel);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(ClassWithEmptyType::class));
 
 (static function (DiContainerInterface $container) {
     print \test_title('Testcase #12 resolve from union type.');
@@ -146,43 +146,39 @@ $rand = mt_rand();
     print test_title('Success', '✅', 0);
 })($container);
 
-(static function (DiContainerInterface $container) {
+(static function (RuleEngine $ruleEngine) {
     print \test_title('Testcase #13 variadic arguments by parameter name.');
 
     try {
-        $container->get(RuleEngine::class)->validate('a@a.com');
+        $ruleEngine->validate('a@a.com');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
         print test_title('catch exception', '     🧲', 0);
     }
 
     try {
-        $container->get(RuleEngine::class)->validate('   a@a.com       ');
+        $ruleEngine->validate('   a@a.com       ');
     } catch (RuleException $exception) {
         \assert($exception->getMessage() === 'Length must be between 10 and 100.');
         print test_title('catch exception', '     🧲', 0);
     }
 
     try {
-        $container->get(RuleEngine::class)->validate('Lorem ipsum dolor sit amet');
+        $ruleEngine->validate('Lorem ipsum dolor sit amet');
     } catch (RuleException $exception) {
         \assert(str_starts_with($exception->getMessage(), 'Not a valid email'));
         print test_title('catch exception', '     🧲', 0);
     }
 
-    \assert('alex.moon@gmail.com' === $container->get(RuleEngine::class)->validate('    alex.moon@gmail.com   '));
+    \assert('alex.moon@gmail.com' === $ruleEngine->validate('    alex.moon@gmail.com   '));
     print test_title('valid', '     ✔ ', 0);
 
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleEngine::class));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleEngine $myRule) {
     print \test_title('Testcase #14 variadic arguments by parameter index.');
-    /**
-     * @var RuleEngine $myRule
-     */
-    $myRule = $container->get('services.rules.may-rule');
 
     \assert('my text printed' === $myRule->validate('  my text printed '));
     print test_title('valid', '     ✔ ', 0);
@@ -195,25 +191,23 @@ $rand = mt_rand();
     }
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get('services.rules.may-rule'));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleCollection $ruleCollection) {
     print \test_title('Testcase #15 collection.');
 
-    $res = $container->get(RuleCollection::class)
-        ->validate('  My string with valid string  ');
+    $res = $ruleCollection->validate('  My string with valid string  ');
 
     \assert('My string with valid string' === $res);
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleCollection::class));
 
-(static function (DiContainerInterface $container) {
+(static function (RuleCollection $ruleCollection) {
     print \test_title('Testcase #16 collection with failed validation.');
 
     try {
-        $container->get(RuleCollection::class)
-            ->validate('\0123administrator');
+        $ruleCollection->validate('\0123administrator');
     } catch (\Di\Classes\Collection\RuleException $e) {
         \assert(
             $e->getMessage() === 'Invalid string. String must contain only letters. Got: \'\0123administrator\''
@@ -222,4 +216,4 @@ $rand = mt_rand();
     }
 
     print test_title('Success', '✅', 0);
-})($container);
+})($container->get(RuleCollection::class));
