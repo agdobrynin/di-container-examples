@@ -138,3 +138,27 @@ $container = (new DiContainerFactory())->make(
 
     print test_title('Success', '✅', 0);
 })($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #10 Inject collection attribute.');
+
+    $res = $container->get(\Attributes\Classes\Collection\RuleCollection::class)
+        ->validate('  My string with valid string  ');
+
+    \assert('My string with valid string' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container);
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #11 Inject collection attribute with failed validation.');
+
+    try {
+        $res = $container->get(\Attributes\Classes\Collection\RuleCollection::class)
+            ->validate('\0123administrator');
+    } catch (\Attributes\Classes\Collection\RuleException $e) {
+        \assert(str_starts_with($e->getMessage(), 'Invalid string. String must contain only letters'));
+    }
+
+    print test_title('Success', '✅', 0);
+})($container);

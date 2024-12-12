@@ -17,4 +17,14 @@ return static function (): \Generator {
     yield diAutowire(AppLogger::class)
         // bind by index
         ->bindArguments('app-logger', __DIR__ . '/../../../var/log.log');
+
+    // Config services for test collection injected by #[Inject('services.rule-collection')]
+    yield diAutowire(\Attributes\Classes\Collection\RuleMinMax::class)
+        ->bindArguments(min: 10, max: 255);
+
+    yield 'services.rule-collection' => static fn (
+        \Attributes\Classes\Collection\RuleTrim $ruleTrim,
+        \Attributes\Classes\Collection\RuleMinMax $ruleMinMax,
+        \Attributes\Classes\Collection\RuleAlphabetOnly $ruleAlphabetOnly,
+    ) => func_get_args();
 };
