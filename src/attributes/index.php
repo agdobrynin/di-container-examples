@@ -26,6 +26,7 @@ $container = (new DiContainerFactory())->make(
     $configImport(
         __DIR__ . '/config/di_config_services.php',
         __DIR__ . '/config/di_config.php',
+        __DIR__ . '/config/di_config_service_collection.php',
     )
 );
 
