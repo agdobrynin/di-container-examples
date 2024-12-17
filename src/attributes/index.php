@@ -15,19 +15,18 @@ use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
 use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
+use Kaspi\DiContainer\DefinitionsLoader;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Psr\Container\ContainerInterface;
 
-$configImport = require __DIR__ . '/../config-import-from-files.php';
-
-$container = (new DiContainerFactory())->make(
-    $configImport(
-        __DIR__ . '/config/di_config_services.php',
-        __DIR__ . '/config/di_config.php',
-        __DIR__ . '/config/di_config_service_collection.php',
-    )
+$definitions = (new DefinitionsLoader())->load(
+    false,
+    __DIR__ . '/config/di_config_services.php',
+    __DIR__ . '/config/di_config.php',
+    __DIR__ . '/config/di_config_service_collection.php',
 );
+$container = (new DiContainerFactory())->make($definitions->definitions());
 
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');

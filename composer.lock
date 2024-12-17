@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kaspi/di-container",
-            "version": "v3.6.2",
+            "version": "v3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/agdobrynin/di-container.git",
-                "reference": "90e35bc6e7a09bb0c44c172a063cfc447bd3bd29"
+                "reference": "46fba5036cacf67b396439a9fc8087e5b96e4a9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/90e35bc6e7a09bb0c44c172a063cfc447bd3bd29",
-                "reference": "90e35bc6e7a09bb0c44c172a063cfc447bd3bd29",
+                "url": "https://api.github.com/repos/agdobrynin/di-container/zipball/46fba5036cacf67b396439a9fc8087e5b96e4a9c",
+                "reference": "46fba5036cacf67b396439a9fc8087e5b96e4a9c",
                 "shasum": ""
             },
             "require": {
@@ -59,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/agdobrynin/di-container/issues",
-                "source": "https://github.com/agdobrynin/di-container/tree/v3.6.2"
+                "source": "https://github.com/agdobrynin/di-container/tree/v3.6.3"
             },
-            "time": "2024-12-13T06:57:32+00:00"
+            "time": "2024-12-17T06:29:02+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -277,12 +277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "782fdf596581968ada24d6b3137cc622d08a5bbc"
+                "reference": "233f7c395ac3b83e3c85aa304f3350bf8897aca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/782fdf596581968ada24d6b3137cc622d08a5bbc",
-                "reference": "782fdf596581968ada24d6b3137cc622d08a5bbc",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/233f7c395ac3b83e3c85aa304f3350bf8897aca5",
+                "reference": "233f7c395ac3b83e3c85aa304f3350bf8897aca5",
                 "shasum": ""
             },
             "conflict": {
@@ -606,6 +606,7 @@
                 "laravel/fortify": "<1.11.1",
                 "laravel/framework": "<6.20.45|>=7,<7.30.7|>=8,<8.83.28|>=9,<9.52.17|>=10,<10.48.23|>=11,<11.31",
                 "laravel/laravel": ">=5.4,<5.4.22",
+                "laravel/pulse": "<1.3.1",
                 "laravel/reverb": "<1.4",
                 "laravel/socialite": ">=1,<2.0.10",
                 "latte/latte": "<2.10.8",
@@ -869,7 +870,7 @@
                 "snipe/snipe-it": "<=7.0.13",
                 "socalnick/scn-social-auth": "<1.15.2",
                 "socialiteproviders/steam": "<1.1",
-                "spatie/browsershot": "<3.57.4",
+                "spatie/browsershot": "<5.0.1",
                 "spatie/image-optimizer": "<1.7.3",
                 "spencer14420/sp-php-email-handler": "<1",
                 "spipu/html2pdf": "<5.2.8",
@@ -1121,7 +1122,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-12T20:05:59+00:00"
+            "time": "2024-12-13T21:04:51+00:00"
         }
     ],
     "aliases": [],

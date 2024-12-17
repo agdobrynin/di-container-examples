@@ -18,21 +18,21 @@ use Di\Classes\Variadic\RuleException;
 use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
+use Kaspi\DiContainer\DefinitionsLoader;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Psr\Log\LoggerInterface;
 
-$importerFromFile = require __DIR__ . '/../config-import-from-files.php';
-$config = $importerFromFile(
+$definitions = (new DefinitionsLoader())->load(
+    false,
     __DIR__ . '/config/services.php',
     __DIR__ . '/config/service_employer.php',
     __DIR__ . '/config/service_user.php',
     __DIR__ . '/config/simple-data.php',
     __DIR__ . '/config/service_collection.php',
 );
-
-$container = (new DiContainerFactory())->make($config);
+$container = (new DiContainerFactory())->make($definitions->definitions());
 
 $rand = mt_rand();
 
