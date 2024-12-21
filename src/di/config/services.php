@@ -20,7 +20,9 @@ use function Kaspi\DiContainer\{diAutowire, diGet};
 return static function (): \Generator {
     yield diAutowire(\PDO::class)
         // bind by name
-        ->bindArguments(dsn: diGet('sqlite-dsn'));
+        ->bindArguments(dsn: diGet('sqlite-dsn'))
+        // setup service via setter method
+        ->setup('setAttribute', attribute: \PDO::ATTR_CASE, value: \PDO::CASE_UPPER);
 
     yield LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(

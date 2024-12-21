@@ -12,7 +12,9 @@ return static function (): \Generator {
         ->bindArguments(min: 10, max: 100);
 
     yield 'app.pdo' => diAutowire(PDO::class, isSingleton: true)
-        ->bindArguments(dsn: 'sqlite:' . __DIR__ . '/../../../var/data.db');
+        ->bindArguments(dsn: 'sqlite:' . __DIR__ . '/../../../var/data.db')
+        // setup service via setter method
+        ->setup('setAttribute', attribute: \PDO::ATTR_CASE, value: \PDO::CASE_UPPER);
 
     yield diAutowire(AppLogger::class)
         // bind by index

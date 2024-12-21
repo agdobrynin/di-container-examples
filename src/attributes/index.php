@@ -32,6 +32,8 @@ $container = (new DiContainerFactory())->make($definitions->definitions());
     print test_title('Test # 1 resolve build on argument');
 
     assert($myClass->pdo instanceof PDO);
+    // PDO configured by diAutowire helper setAttribute(PDO::ATTR_CASE, PDO::CASE_UPPER)
+    assert($myClass->pdo->getAttribute(PDO::ATTR_CASE) === PDO::CASE_UPPER);
 
     print test_title('Success', '✅', 0);
 })($container->get(MyClass::class));

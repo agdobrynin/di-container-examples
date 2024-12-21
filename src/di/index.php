@@ -43,6 +43,8 @@ $rand = mt_rand();
 
     assert($classUsers->addUser($name));
     assert(preg_match('/^\d+ \| John #\d+$/', implode(' | ', $classUsers->getUser($name))));
+    // PDO configure get column name as uppercase
+    assert(['ID', 'NAME'] === \array_keys($classUsers->getUser($name)));
 
     print test_title('Success', '✅', 0);
 })($container->get(ClassUsers::class), 'John #' . $rand);
