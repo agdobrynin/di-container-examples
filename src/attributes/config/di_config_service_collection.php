@@ -15,4 +15,12 @@ return static function (): \Generator {
         RuleMinMax       $ruleMinMax,
         RuleAlphabetOnly $ruleAlphabetOnly,
     ) => func_get_args();
+
+    yield 'services.rule-collection-lazy' => static function(Psr\Container\ContainerInterface $container): \Generator {
+        yield $container->get(RuleTrim::class);
+
+        yield $container->get(RuleMinMax::class);
+
+        yield $container->get(RuleAlphabetOnly::class);
+    };
 };

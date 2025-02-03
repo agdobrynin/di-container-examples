@@ -12,7 +12,7 @@ class RuleCollection
      * @param RuleInterface[] $rules
      */
     public function __construct(
-        #[Inject('services.rule-collection')]
+        #[Inject('services.rule-collection-lazy')]
         private readonly iterable $rules
     ) {}
 
@@ -21,10 +21,10 @@ class RuleCollection
      */
     public function validate(string $str): string
     {
-        return \array_reduce(
-            $this->rules,
-            static fn (string $carry, RuleInterface $rule)  => $rule->validate($carry),
-            $str
-        );
+        foreach ($this->rules as $rule) {
+            $str = $rule->validate($str);
+        }
+
+        return $str;
     }
 }
