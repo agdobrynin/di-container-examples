@@ -8,6 +8,8 @@ use Di\Classes\ClassUsers;
 use Di\Classes\ClassWithEmptyType;
 use Di\Classes\ClassWithUnionType;
 use Di\Classes\Collection\RuleCollection;
+use Di\Classes\Collection\RuleTaggedByInterfaceParameterIterable;
+use Di\Classes\Collection\RuleTaggedByTagNameParameterArray;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
@@ -219,3 +221,40 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container->get(RuleCollection::class));
+
+(static function (RuleTaggedByTagNameParameterArray $taggedByTagNameParameterArray) {
+    print \test_title('Testcase #17 collection tagged by tag name failed validation.');
+
+    try {
+        $taggedByTagNameParameterArray->validate('\0123administrator');
+    } catch (\Di\Classes\Collection\RuleException $e) {
+        \assert(
+            $e->getMessage() === 'Invalid string. String must contain only letters. Got: \'\0123administrator\''
+        );
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByTagNameParameterArray::class));
+
+(static function (RuleTaggedByTagNameParameterArray $taggedByTagNameParameterArray) {
+    print \test_title('Testcase #18 collection tagged by tag name successful.');
+
+    $res = $taggedByTagNameParameterArray->validate(' admin of site   ');
+
+    \assert('admin of site' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByTagNameParameterArray::class));
+
+(static function (RuleTaggedByInterfaceParameterIterable $taggedByInterfaceParameterIterable) {
+    print \test_title('Testcase #19 collection tagged by interface name successful.');
+
+    $res = $taggedByInterfaceParameterIterable->validate(' admin of site   ');
+
+    \assert('admin of site' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfaceParameterIterable::class));
+
+
