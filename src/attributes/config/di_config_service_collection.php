@@ -7,8 +7,12 @@ use Attributes\Classes\Collection\RuleTrim;
 use function Kaspi\DiContainer\diAutowire;
 
 return static function (): \Generator {
+    yield diAutowire(RuleTrim::class);
+
     yield diAutowire(RuleMinMax::class)
         ->bindArguments(min: 10, max: 255);
+
+    yield diAutowire(RuleAlphabetOnly::class);
 
     yield 'services.rule-collection' => static fn(
         RuleTrim         $ruleTrim,

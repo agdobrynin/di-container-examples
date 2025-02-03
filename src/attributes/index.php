@@ -6,6 +6,8 @@ use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\ClassWithUnionType;
 use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\Collection\RuleCollection;
+use Attributes\Classes\Collection\RuleTaggedByInterface;
+use Attributes\Classes\Collection\RuleTaggedByTagName;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -163,3 +165,38 @@ $container = (new DiContainerFactory())->make($definitions->definitions());
 
     print test_title('Success', '✅', 0);
 })($container->get(RuleCollection::class));
+
+(static function (RuleTaggedByInterface $ruleTaggedBy) {
+    print \test_title('Testcase #12 Tagged collection by interface with failed validation.');
+
+    try {
+        $ruleTaggedBy->validate('\0123administrator');
+    } catch (\Attributes\Classes\Collection\RuleException $e) {
+        \assert(str_starts_with($e->getMessage(), 'Invalid string. String must contain only letters'));
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterface::class));
+
+(static function (RuleTaggedByInterface $ruleTaggedBy) {
+    print \test_title('Testcase #13 Tagged collection by interface success validation.');
+
+    $res = $ruleTaggedBy
+        ->validate('  My string with valid string  ');
+
+    \assert('My string with valid string' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterface::class));
+
+(static function (RuleTaggedByTagName $ruleTaggedBy) {
+    print \test_title('Testcase #14 Tagged collection by tag name with priority success validation.');
+
+    $res = $ruleTaggedBy
+        ->validate('  My string with valid string  ');
+
+    \assert('My string with valid string' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByTagName::class));
