@@ -10,4 +10,9 @@ class RuleTrim implements RuleInterface
     {
         return \trim($text);
     }
+
+    public static function getPriorityDefaultMethod(): int
+    {
+        return 10_000;
+    }
 }

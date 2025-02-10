@@ -19,4 +19,9 @@ class RuleAlphabetOnly implements RuleInterface
 
         throw new RuleException('Invalid string. String must contain only letters. Got: \''.$text.'\'');
     }
+
+    public static function getPriorityDefaultMethod(): int
+    {
+        return 1_000;
+    }
 }

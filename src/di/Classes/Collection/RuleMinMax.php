@@ -19,4 +19,9 @@ class RuleMinMax implements RuleInterface
             ? $text
             : throw new RuleException('Length must be between ' . $this->min . ' and ' . $this->max . '.');
     }
+
+    public static function getPriorityDefaultMethod(): int
+    {
+        return 5_000;
+    }
 }

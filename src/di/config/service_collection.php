@@ -6,6 +6,7 @@ use Di\Classes\Collection\RuleCollection;
 use Di\Classes\Collection\RuleInterface;
 use Di\Classes\Collection\RuleMinMax;
 use Di\Classes\Collection\RuleTaggedByInterfaceParameterIterable;
+use Di\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
 use Di\Classes\Collection\RuleTaggedByTagNameParameterArray;
 use Di\Classes\Collection\RuleTrim;
 use function Kaspi\DiContainer\diAutowire;
@@ -15,7 +16,7 @@ use function Kaspi\DiContainer\diTaggedAs;
 return static function (): \Generator {
     yield diAutowire(RuleMinMax::class)
         ->bindArguments(min: 10, max: 255)
-        ->bindTag('services.validation', ['priority' => 100]);
+        ->bindTag('services.validation', priority: 100);
 
     yield 'services.rule-collection' => static fn(
         RuleTrim         $ruleTrim,
@@ -29,11 +30,7 @@ return static function (): \Generator {
         );
 
     yield diAutowire(RuleAlphabetOnly::class)
-        ->bindTag('services.validation', ['priority' => 1000]);
-
-    yield diAutowire(RuleTrim::class)
-        ->bindTag('services.validation', ['priority' => 0]);
-
+        ->bindTag('services.validation', priority: 1_000);
 
     yield diAutowire(RuleTaggedByTagNameParameterArray::class)
         ->bindArguments(
@@ -44,4 +41,15 @@ return static function (): \Generator {
         ->bindArguments(
             rules: diTaggedAs(tag: RuleInterface::class)
         );
+
+    yield diAutowire(RuleTaggedByInterfacePriorityDefaultMethod::class)
+        ->bindArguments(
+            rules: diTaggedAs(
+                tag: RuleInterface::class,
+                priorityDefaultMethod: 'getPriorityDefaultMethod'
+            )
+        );
+
+    yield diAutowire(RuleTrim::class)
+        ->bindTag('services.validation', priority: 10_000);
 };

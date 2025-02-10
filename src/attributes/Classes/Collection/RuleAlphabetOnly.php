@@ -6,10 +6,9 @@ namespace Attributes\Classes\Collection;
 
 use Kaspi\DiContainer\Attributes\Tag;
 
-#[Tag('tags.validation.rules', ['priority' => 10])]
+#[Tag('tags.validation.rules', priority: 10)]
 class RuleAlphabetOnly implements RuleInterface
 {
-
     public function __construct(private readonly string $regexp = '/^[a-zA-Z ]+$/i')
     {
     }
@@ -21,5 +20,10 @@ class RuleAlphabetOnly implements RuleInterface
         }
 
         throw new RuleException('Invalid string. String must contain only letters. Got: \''.$text.'\'');
+    }
+
+    public static function getPriorityDefaultMethod(): string
+    {
+        return 'validation:0010';
     }
 }

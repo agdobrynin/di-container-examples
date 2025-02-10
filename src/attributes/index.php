@@ -7,6 +7,7 @@ use Attributes\Classes\ClassWithUnionType;
 use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\Collection\RuleCollection;
 use Attributes\Classes\Collection\RuleTaggedByInterface;
+use Attributes\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
 use Attributes\Classes\Collection\RuleTaggedByTagName;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
@@ -200,3 +201,27 @@ $container = (new DiContainerFactory())->make($definitions->definitions());
 
     print test_title('Success', '✅', 0);
 })($container->get(RuleTaggedByTagName::class));
+
+(static function (RuleTaggedByInterfacePriorityDefaultMethod $validator) {
+    print \test_title('Testcase #15 Tagged collection by tag name with priority by default method.');
+
+    $res = $validator
+        ->validate('   Lorem ipsum     ');
+
+    \assert('Lorem ipsum' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfacePriorityDefaultMethod::class));
+
+(static function (RuleTaggedByInterfacePriorityDefaultMethod $validator) {
+    print \test_title('Testcase #16 Tagged collection by tag name with priority by default method failed.');
+
+    try {
+        $validator->validate('     Lo        ');
+    } catch (\Attributes\Classes\Collection\RuleException $e) {
+        \assert(str_starts_with($e->getMessage(), 'Length must be between'));
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfacePriorityDefaultMethod::class));

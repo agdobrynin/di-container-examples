@@ -9,6 +9,7 @@ use Di\Classes\ClassWithEmptyType;
 use Di\Classes\ClassWithUnionType;
 use Di\Classes\Collection\RuleCollection;
 use Di\Classes\Collection\RuleTaggedByInterfaceParameterIterable;
+use Di\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
 use Di\Classes\Collection\RuleTaggedByTagNameParameterArray;
 use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
@@ -257,4 +258,36 @@ $rand = mt_rand();
     print test_title('Success', '✅', 0);
 })($container->get(RuleTaggedByInterfaceParameterIterable::class));
 
+(static function (RuleTaggedByInterfaceParameterIterable $taggedByInterfaceParameterIterable) {
+    print \test_title('Testcase #20 collection tagged by interface name false positive.');
 
+    // Rule for min max - false positive because trim rule call latree
+    $res = $taggedByInterfaceParameterIterable->validate('      ada       ');
+    \assert('ada' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfaceParameterIterable::class));
+
+(static function (RuleTaggedByInterfacePriorityDefaultMethod $taggedByInterfaceParameterIterable) {
+    print \test_title('Testcase #21 collection tagged by interface with priority by default method.');
+
+    try {
+        $taggedByInterfaceParameterIterable->validate('      ada       ');
+    } catch (\Di\Classes\Collection\RuleException $e) {
+        \assert(
+            $e->getMessage() === 'Length must be between 10 and 255.'
+        );
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfacePriorityDefaultMethod::class));
+
+(static function (RuleTaggedByInterfacePriorityDefaultMethod $taggedByInterfaceParameterIterable) {
+    print \test_title('Testcase #22 collection tagged by interface with priority by default method.');
+
+    $res = $taggedByInterfaceParameterIterable->validate('      Lorem ipsum       ');
+    \assert('Lorem ipsum' === $res);
+
+    print test_title('Success', '✅', 0);
+})($container->get(RuleTaggedByInterfacePriorityDefaultMethod::class));
