@@ -16,19 +16,25 @@ use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
+use Attributes\Classes\TaggedKeys\One;
+use Attributes\Classes\TaggedKeys\TaggedCollection;
+use Attributes\Classes\TaggedKeys\Two;
 use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DefinitionsLoader;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 $definitions = (new DefinitionsLoader())->load(
     false,
     __DIR__ . '/config/di_config_services.php',
     __DIR__ . '/config/di_config.php',
     __DIR__ . '/config/di_config_service_collection.php',
+    __DIR__ . '/config/di_config_tag_key.php',
 );
+
 $container = (new DiContainerFactory())->make($definitions->definitions());
 
 (static function (MyClass $myClass) {
@@ -225,3 +231,27 @@ $container = (new DiContainerFactory())->make($definitions->definitions());
 
     print test_title('Success', '✅', 0);
 })($container->get(RuleTaggedByInterfacePriorityDefaultMethod::class));
+
+(static function (TaggedCollection $taggedCollection) {
+    print \test_title('Testcase #17 Tagged collection with custom collection key.');
+
+    // access by php-array
+    \assert($taggedCollection->items['name.two'] instanceof Two);
+    \assert($taggedCollection->items['name.one'] instanceof One);
+
+    \assert(2 === $taggedCollection->items->count());
+
+    // access by ContainerInterface
+    \assert($taggedCollection->items->get('name.two') instanceof Two);
+    \assert($taggedCollection->items->get('name.one') instanceof One);
+
+    // catch exception
+    try {
+        $taggedCollection->items->get('name.three');
+    } catch (NotFoundExceptionInterface $e) {
+        \assert(str_starts_with($e->getMessage(), 'Definition "name.three" not found'));
+        print test_title('catch exception', '     🧲', 0);
+    }
+
+    print test_title('Success', '✅', 0);
+})($container->get(TaggedCollection::class));
