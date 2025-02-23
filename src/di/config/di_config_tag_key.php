@@ -20,5 +20,6 @@ return static function (): \Generator {
         ->bindTag(name: 'tags.service_other', options: ['key_as' => 'name.three']);
 
     yield diAutowire(TaggedCollection::class)
-        ->bindArguments(items: diTaggedAs(tag: 'tags.tagged_key', key: 'key_as'));
+        ->bindArguments(items: diTaggedAs(tag: 'tags.tagged_key', key: 'key_as'))
+        ->bindTag(name: 'tags.tagged_key'); // own class will be excluded from collection.
 };
