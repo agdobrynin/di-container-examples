@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Attributes\Classes\Circular\Circular;
-use Attributes\Classes\ClassWithUnionType;
+use Attributes\Classes\ClassWithUnionTypeWithException;
 use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\Collection\RuleCollection;
 use Attributes\Classes\Collection\RuleTaggedByInterface;
@@ -24,6 +24,7 @@ use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DefinitionsLoader;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -100,14 +101,20 @@ $container = (new DiContainerFactory())->make($definitions->definitions());
     print test_title('Success', '✅', 0);
 })($container);
 
-(static function (ClassWithUnionType $classWithUnionType) {
-    print \test_title('Testcase #7 testcase for union type hint.');
-    print \test_title('Get first type hint from union type hint.', 'ℹ ', 0);
+(static function (ContainerInterface $container) {
+    print \test_title('Testcase #7 testcase for union type hint with exception.');
+    print \test_title('Concrete type hint in union type.', 'ℹ ', 0);
 
-    assert($classWithUnionType->dependency instanceof MyUsers);
+    try {
+        $container->get(ClassWithUnionTypeWithException::class);
+    } catch (ContainerExceptionInterface $exception) {
+        \assert(str_contains($exception->getMessage(), 'Please specify the parameter type for the argument "$dependency"'));
+
+        print test_title('catch exception', '     🧲', 0);
+    }
 
     print test_title('Success', '✅', 0);
-})($container->get(ClassWithUnionType::class));
+})($container);
 
 
 (static function (ClassWithUnionTypeByInject $classWithUnionTypeByInject) {

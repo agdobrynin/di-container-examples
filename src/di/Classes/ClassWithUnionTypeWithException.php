@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Attributes\Classes;
+namespace Di\Classes;
 
-class ClassWithUnionType
+class ClassWithUnionTypeWithException
 {
     public function __construct(public MyUsers|MyEmployers $dependency) {}
 }

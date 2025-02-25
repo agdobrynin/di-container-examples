@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
+use Di\Classes\ClassWithUnionType;
 use Di\Classes\DiFactoryPerson;
+use Di\Classes\MyEmployers;
 use Di\Classes\Person;
 use Di\Classes\Travel;
 use Di\Classes\Variadic\RuleEmail;
@@ -75,4 +77,7 @@ return static function (): \Generator {
             diAutowire(RuleMinMax::class)
                 ->bindArguments(min: 4, max: 23)
         );
+
+    yield diAutowire(ClassWithUnionType::class)
+        ->bindArguments(dependency: diGet(MyEmployers::class));
 };

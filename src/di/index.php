@@ -7,6 +7,7 @@ use Di\Classes\ClassInterface;
 use Di\Classes\ClassUsers;
 use Di\Classes\ClassWithEmptyType;
 use Di\Classes\ClassWithUnionType;
+use Di\Classes\ClassWithUnionTypeWithException;
 use Di\Classes\Collection\RuleCollection;
 use Di\Classes\Collection\RuleTaggedByInterfaceParameterIterable;
 use Di\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
@@ -28,6 +29,7 @@ use Kaspi\DiContainer\DefinitionsLoader;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -149,9 +151,14 @@ $rand = mt_rand();
 })($container->get(ClassWithEmptyType::class));
 
 (static function (DiContainerInterface $container) {
-    print \test_title('Testcase #12 resolve from union type.');
+    print \test_title('Testcase #12 resolve from union type with exception.');
 
-    assert($container->get(ClassWithUnionType::class)->dependency instanceof MyUsers);
+    try {
+        $container->get(ClassWithUnionTypeWithException::class);
+    } catch (ContainerExceptionInterface $exception) {
+        \assert(str_contains($exception->getMessage(), 'Please specify the parameter type for the argument "$dependency"'));
+        print test_title('catch exception', '     🧲', 0);
+    }
 
     print test_title('Success', '✅', 0);
 })($container);
@@ -320,3 +327,11 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container->get(TaggedCollection::class));
+
+(static function (DiContainerInterface $container) {
+    print \test_title('Testcase #24 resolve from union type success.');
+
+    \assert($container->get(ClassWithUnionType::class)->dependency instanceof MyEmployers);
+
+    print test_title('Success', '✅', 0);
+})($container);
