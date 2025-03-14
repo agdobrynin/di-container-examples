@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Attributes\Classes\Circular\Circular;
-use Attributes\Classes\ClassWithUnionTypeWithException;
 use Attributes\Classes\ClassWithUnionTypeByInject;
+use Attributes\Classes\ClassWithUnionTypeWithException;
 use Attributes\Classes\Collection\RuleCollection;
 use Attributes\Classes\Collection\RuleTaggedByInterface;
 use Attributes\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
@@ -28,13 +28,15 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-$definitions = (new DefinitionsLoader())->load(
-    false,
-    __DIR__ . '/config/di_config_services.php',
-    __DIR__ . '/config/di_config.php',
-    __DIR__ . '/config/di_config_service_collection.php',
-    __DIR__ . '/config/di_config_tag_key.php',
-);
+$definitions = (new DefinitionsLoader())
+    ->load(...\glob(__DIR__ . '/config/*.php')
+    )->import(
+        'Attributes\Classes\\',
+        __DIR__ . '/Classes/',
+        excludeFilesRegExpPattern: [
+            '~Classes/Person\.php$~' // todo
+        ]
+    );
 
 $container = (new DiContainerFactory())->make($definitions->definitions());
 

@@ -34,7 +34,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 $definitions = (new DefinitionsLoader())->load(
-    false,
     __DIR__ . '/config/services.php',
     __DIR__ . '/config/service_employer.php',
     __DIR__ . '/config/service_user.php',
