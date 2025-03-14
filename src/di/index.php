@@ -26,6 +26,7 @@ use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
 use Kaspi\DiContainer\DefinitionsLoader;
+use Kaspi\DiContainer\DiContainerConfig;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
@@ -40,8 +41,16 @@ $definitions = (new DefinitionsLoader())->load(
     __DIR__ . '/config/simple-data.php',
     __DIR__ . '/config/service_collection.php',
     __DIR__ . '/config/di_config_tag_key.php',
-);
-$container = (new DiContainerFactory())->make($definitions->definitions());
+)
+    ->import('Di\Classes\\', __DIR__ . '/Classes', useAttribute: false)
+    ->definitions();
+
+$container = (new DiContainerFactory(
+    new DiContainerConfig(
+        useZeroConfigurationDefinition: false,
+    )
+))
+    ->make($definitions);
 
 $rand = mt_rand();
 

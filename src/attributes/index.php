@@ -22,6 +22,7 @@ use Attributes\Classes\TaggedKeys\Two;
 use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
 use Kaspi\DiContainer\DefinitionsLoader;
+use Kaspi\DiContainer\DiContainerConfig;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Psr\Container\ContainerExceptionInterface;
@@ -29,16 +30,16 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 $definitions = (new DefinitionsLoader())
-    ->load(...\glob(__DIR__ . '/config/*.php')
-    )->import(
-        'Attributes\Classes\\',
-        __DIR__ . '/Classes/',
-        excludeFilesRegExpPattern: [
-            '~Classes/Person\.php$~' // todo
-        ]
-    );
+    ->load(...\glob(__DIR__ . '/config/*.php'))
+    ->import('Attributes\Classes\\', __DIR__ . '/Classes/')
+    ->definitions();
 
-$container = (new DiContainerFactory())->make($definitions->definitions());
+$container = (new DiContainerFactory(
+    new DiContainerConfig(
+        useZeroConfigurationDefinition: false
+    )
+))
+    ->make($definitions);
 
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');
