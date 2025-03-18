@@ -29,7 +29,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-$definitions = (new DefinitionsLoader())
+$definitions = (new DefinitionsLoader(
+    __DIR__ . '/../../var/attribute_definitions.php'
+))
     ->load(...\glob(__DIR__ . '/config/*.php'))
     ->import('Attributes\Classes\\', __DIR__ . '/Classes/')
     ->definitions();

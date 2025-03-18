@@ -34,7 +34,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-$definitions = (new DefinitionsLoader())->load(
+$definitions = (new DefinitionsLoader(
+    importCacheFile: __DIR__ . '/../../var/di_definitions.php'
+))->load(
     __DIR__ . '/config/services.php',
     __DIR__ . '/config/service_employer.php',
     __DIR__ . '/config/service_user.php',
