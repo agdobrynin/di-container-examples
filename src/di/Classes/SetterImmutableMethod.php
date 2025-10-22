@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Attributes\Classes;
+namespace Di\Classes;
 
-use Kaspi\DiContainer\Attributes\SetupImmutable;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -12,7 +11,6 @@ final class SetterImmutableMethod
 {
     public function __construct(private LoggerInterface $logger = new NullLogger()) {}
 
-    #[SetupImmutable('@'.AppLogger::class)]
     public function withLogger(LoggerInterface $logger): static
     {
         $new = clone $this;

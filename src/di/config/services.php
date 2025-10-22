@@ -8,6 +8,8 @@ use Di\Classes\ClassWithUnionType;
 use Di\Classes\DiFactoryPerson;
 use Di\Classes\MyEmployers;
 use Di\Classes\Person;
+use Di\Classes\SetterImmutableMethod;
+use Di\Classes\SetterMethod;
 use Di\Classes\Travel;
 use Di\Classes\Variadic\RuleEmail;
 use Di\Classes\Variadic\RuleEngine;
@@ -80,4 +82,12 @@ return static function (): \Generator {
 
     yield diAutowire(ClassWithUnionType::class)
         ->bindArguments(dependency: diGet(MyEmployers::class));
+
+    yield diAutowire(SetterMethod::class)
+        ->setup('addRule', diGet(\Di\Classes\Collection\RuleTrim::class))
+        ->setup('addRule', diGet(\Di\Classes\Collection\RuleMinMax::class))
+        ->setup('addRule', diGet(\Di\Classes\Collection\RuleAlphabetOnly::class));
+
+    yield diAutowire(SetterImmutableMethod::class)
+        ->setupImmutable('withLogger');
 };

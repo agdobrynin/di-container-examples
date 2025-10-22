@@ -16,6 +16,8 @@ use Di\Classes\MyEmployers;
 use Di\Classes\MyLogger;
 use Di\Classes\MyUsers;
 use Di\Classes\Person;
+use Di\Classes\SetterImmutableMethod;
+use Di\Classes\SetterMethod;
 use Di\Classes\TaggedKeys\One;
 use Di\Classes\TaggedKeys\TaggedCollection;
 use Di\Classes\TaggedKeys\Two;
@@ -30,6 +32,7 @@ use Kaspi\DiContainer\DiContainerConfig;
 use Kaspi\DiContainer\DiContainerFactory;
 use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
+use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -345,3 +348,25 @@ $rand = mt_rand();
 
     print test_title('Success', '✅', 0);
 })($container);
+
+(static function (SetterMethod $setterMethod) {
+    print \test_title('Testcase #25 use setter mutable method.');
+
+    \assert($setterMethod->getRules()[0] instanceof \Di\Classes\Collection\RuleTrim);
+    \assert($setterMethod->getRules()[1] instanceof \Di\Classes\Collection\RuleMinMax);
+    \assert($setterMethod->getRules()[2] instanceof \Di\Classes\Collection\RuleAlphabetOnly);
+
+    print test_title('Success', '✅', 0);
+})($container->get(SetterMethod::class));
+
+(static function (SetterImmutableMethod $setterImmutableMethod) {
+    print \test_title('Testcase #26 use setter immutable method.');
+
+    \assert($setterImmutableMethod->getLogger() instanceof LoggerInterface);
+    \assert($setterImmutableMethod->getLogger() instanceof Logger);
+    \assert($setterImmutableMethod->getLogger()->getName() === 'app-logger');
+
+    \assert(!($setterImmutableMethod->getLogger() instanceof \Psr\Log\NullLogger));
+
+    print test_title('Success', '✅', 0);
+})($container->get(SetterImmutableMethod::class));

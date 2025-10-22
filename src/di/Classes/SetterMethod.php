@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Attributes\Classes;
+namespace Di\Classes;
 
-use Attributes\Classes\Collection\RuleInterface;
-use Kaspi\DiContainer\Attributes\Setup;
+
+use Di\Classes\Collection\RuleInterface;
 
 final class SetterMethod
 {
@@ -20,9 +20,6 @@ final class SetterMethod
         return $this->rules;
     }
 
-    #[Setup('@'.\Attributes\Classes\Collection\RuleTrim::class)]
-    #[Setup('@'.\Attributes\Classes\Collection\RuleMinMax::class)]
-    #[Setup('@'.\Attributes\Classes\Collection\RuleAlphabetOnly::class)]
     public function addRule(RuleInterface $rule): void
     {
         $this->rules[] = $rule;
