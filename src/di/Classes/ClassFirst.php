@@ -10,6 +10,6 @@ class ClassFirst implements ClassInterface
 
     public function file(): string
     {
-        return realpath($this->file);
+        return $this->file;
     }
 }

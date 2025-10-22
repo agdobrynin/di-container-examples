@@ -37,7 +37,9 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-$definitions = (new DefinitionsLoader())
+$definitions = (new DefinitionsLoader(
+    importCacheFile: __DIR__ . '/../../var/attribute_definitions.php'
+))
     ->load(...\glob(__DIR__ . '/config/*.php'))
     ->import('Attributes\Classes\\', __DIR__ . '/Classes/')
     ->definitions();
