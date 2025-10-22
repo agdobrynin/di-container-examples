@@ -95,7 +95,7 @@ $rand = mt_rand();
 
     assert($class instanceof ClassInterface);
     assert($class instanceof ClassFirst);
-    assert($class->file() === realpath(__DIR__ . '/../../var/log.log'));
+    assert($class->file() === dirname(__DIR__, 2) . '/var/log.log');
 
     print test_title('Success', '✅', 0);
 })($container->get(ClassInterface::class));
@@ -131,7 +131,7 @@ $rand = mt_rand();
 (static function (DiContainerInterface $container) {
     print \test_title('Testcase #8 call method');
 
-    assert($container->call([ClassFirst::class, 'file']) === realpath(__DIR__ . '/../../var/log.log'));
+    assert($container->call([ClassFirst::class, 'file']) === dirname(__DIR__, 2) . '/var/log.log');
 
     print test_title('Success', '✅', 0);
 })($container);
