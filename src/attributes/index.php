@@ -73,7 +73,7 @@ $container = (new DiContainerFactory(
 
     assert($myLogger instanceof MyLogger);
     assert($myLogger->customLogger instanceof CustomLoggerInterface);
-    assert($myLogger->customLogger->loggerFile() === realpath(__DIR__ . '/../../var/app.log'));
+    assert($myLogger->customLogger->loggerFile() === dirname(__DIR__, 2) . '/var/app.log');
 
     $myLogger->logger->debug('Yes!');
 
