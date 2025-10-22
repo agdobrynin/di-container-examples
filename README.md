@@ -9,8 +9,11 @@ composer install
 
 Для запуска примеров:
 ```shell
-php src/index.php
+php -d zend.assertions=1 src/index.php
 ```
+
+> Для проверки утверждений в тестах используется функция [assert](https://www.php.net/assert)
+> поэтому вызов интерпретатора с опцией `-d zend.assertions=1`
 
 ### 🐳 Docker / Docker desktop
 

@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
+use Attributes\Classes\AppLogger;
 use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\ClassWithUnionTypeWithException;
+use Attributes\Classes\Collection\RuleAlphabetOnly;
 use Attributes\Classes\Collection\RuleCollection;
+use Attributes\Classes\Collection\RuleMinMax;
 use Attributes\Classes\Collection\RuleTaggedByInterface;
 use Attributes\Classes\Collection\RuleTaggedByInterfacePriorityDefaultMethod;
 use Attributes\Classes\Collection\RuleTaggedByTagName;
+use Attributes\Classes\Collection\RuleTrim;
 use Attributes\Classes\CustomLoggerInterface;
 use Attributes\Classes\DiFactoryOnProperty;
 use Attributes\Classes\MyClass;
@@ -16,6 +20,8 @@ use Attributes\Classes\MyEmployers;
 use Attributes\Classes\MyLogger;
 use Attributes\Classes\MyUsers;
 use Attributes\Classes\Person;
+use Attributes\Classes\SetterImmutableMethod;
+use Attributes\Classes\SetterMethod;
 use Attributes\Classes\TaggedKeys\One;
 use Attributes\Classes\TaggedKeys\TaggedCollection;
 use Attributes\Classes\TaggedKeys\Two;
@@ -28,10 +34,10 @@ use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-$definitions = (new DefinitionsLoader(
-    __DIR__ . '/../../var/attribute_definitions.php'
-))
+$definitions = (new DefinitionsLoader())
     ->load(...\glob(__DIR__ . '/config/*.php'))
     ->import('Attributes\Classes\\', __DIR__ . '/Classes/')
     ->definitions();
@@ -267,3 +273,24 @@ $container = (new DiContainerFactory(
 
     print test_title('Success', '✅', 0);
 })($container->get(TaggedCollection::class));
+
+(static function (SetterMethod $setterMethod) {
+    print \test_title('Testcase #18 Use setter mutable method.');
+
+    \assert(3 === count($setterMethod->getRules()));
+    \assert($setterMethod->getRules()[0] instanceof RuleTrim);
+    \assert($setterMethod->getRules()[1] instanceof RuleMinMax);
+    \assert($setterMethod->getRules()[2] instanceof RuleAlphabetOnly);
+
+    print test_title('Success', '✅', 0);
+})($container->get(SetterMethod::class));
+
+(static function (SetterImmutableMethod $setterImmutableMethod) {
+    print \test_title('Testcase #19 Use setter immutable method.');
+
+    \assert($setterImmutableMethod->getLogger() instanceof LoggerInterface);
+    \assert($setterImmutableMethod->getLogger() instanceof AppLogger);
+    \assert(!($setterImmutableMethod->getLogger() instanceof NullLogger));
+
+    print test_title('Success', '✅', 0);
+})($container->get(SetterImmutableMethod::class));
