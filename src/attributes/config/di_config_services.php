@@ -7,6 +7,7 @@ use Attributes\Classes\Collection\RuleAlphabetOnly;
 use Attributes\Classes\Collection\RuleTrim;
 use Attributes\Classes\Variadic\RuleMinMax;
 use function Kaspi\DiContainer\diAutowire;
+use function Kaspi\DiContainer\diGet;
 
 
 return static function (): \Generator {
@@ -32,11 +33,11 @@ return static function (): \Generator {
         ->bindArguments(min: 10, max: 100);
 
     yield 'app.pdo' => diAutowire(PDO::class, isSingleton: true)
-        ->bindArguments(dsn: 'sqlite:' . __DIR__ . '/../../../var/data.db')
+        ->bindArguments(dsn: diGet('sqlite.dsn'))
         // setup service via setter method
         ->setup('setAttribute', attribute: \PDO::ATTR_CASE, value: \PDO::CASE_UPPER);
 
     yield diAutowire(AppLogger::class)
         // bind by index
-        ->bindArguments('app-logger', __DIR__ . '/../../../var/log.log');
+        ->bindArguments('app-logger', diGet('app_config.logger_file'));
 };

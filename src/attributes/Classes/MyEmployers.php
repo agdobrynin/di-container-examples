@@ -9,7 +9,7 @@ use Kaspi\DiContainer\Attributes\Inject;
 class MyEmployers
 {
     public function __construct(
-        #[Inject('app.shared.users')]
+        #[Inject('app_config.shared_users')]
         public array $employers
     ) {}
 }
