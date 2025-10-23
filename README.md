@@ -17,11 +17,12 @@ php -d zend.assertions=1 src/index.php
 > используйте ключ `-c`
 > ```shell
 > php -d zend.assertions=1 src/index.php -c
-```
+> ```
 
 > [!NOTE]
 > Для проверки утверждений в тестах используется функция [assert](https://www.php.net/assert)
 > поэтому вызов интерпретатора с опцией `-d zend.assertions=1`
+
 
 ### 🐳 Docker / Docker desktop
 
