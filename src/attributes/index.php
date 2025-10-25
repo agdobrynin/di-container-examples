@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Attributes\Classes\AppLogger;
+use Attributes\Classes\AutowireMulti\AutowireMulti;
 use Attributes\Classes\Circular\Circular;
 use Attributes\Classes\ClassWithUnionTypeByInject;
 use Attributes\Classes\ClassWithUnionTypeWithException;
@@ -296,3 +297,21 @@ $container = (new DiContainerFactory(
 
     print test_title('Success', '✅', 0);
 })($container->get(SetterImmutableMethod::class));
+
+(static function (AutowireMulti $am) {
+    print \test_title('Testcase #20 One class many services with Autowire attributes id=`'.AutowireMulti::class.'`.');
+
+    \assert($am->employers instanceof MyEmployers);
+    \assert($am->employers->employers === ['user1', 'user2']);
+
+    print test_title('Success', '✅', 0);
+})($container->get(AutowireMulti::class));
+
+(static function (AutowireMulti $am) {
+    print \test_title('Testcase #21 One class many services with Autowire attributes id=`services.autowire_multi`.');
+
+    \assert($am->employers instanceof MyEmployers);
+    \assert($am->employers->employers === ['user1', 'user2']);
+
+    print test_title('Success', '✅', 0);
+})($container->get('services.autowire_multi'));
