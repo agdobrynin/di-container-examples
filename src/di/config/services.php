@@ -63,11 +63,9 @@ return static function (): \Generator {
     yield diAutowire(RuleEngine::class)
         // bind variadic by name
         ->bindArguments(
-            rule: [
-                diAutowire(RuleTrim::class),
-                diAutowire(RuleMinMax::class),
-                diAutowire(RuleEmail::class),
-            ]
+            rule1: diAutowire(RuleTrim::class),
+            rule2: diAutowire(RuleMinMax::class),
+            rule3: diAutowire(RuleEmail::class),
         );
 
     yield 'services.rules.may-rule' => diAutowire(RuleEngine::class)

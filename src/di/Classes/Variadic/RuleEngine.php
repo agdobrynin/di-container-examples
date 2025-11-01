@@ -16,6 +16,9 @@ class RuleEngine
         $this->rules = $rule;
     }
 
+    /**
+     *  @throws RuleException
+     */
     public function validate(string $text): string
     {
         return \array_reduce($this->rules, static function (string $carry, RuleInterface $rule) {
