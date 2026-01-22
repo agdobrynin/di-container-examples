@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Attributes\Classes;
 
+use Attributes\Classes\Collection\RuleAlphabetOnly;
 use Attributes\Classes\Collection\RuleInterface;
+use Attributes\Classes\Collection\RuleMinMax;
+use Attributes\Classes\Collection\RuleTrim;
 use Kaspi\DiContainer\Attributes\Setup;
+use Kaspi\DiContainer\DiDefinition\DiDefinitionGet as DiGet;
 
 final class SetterMethod
 {
@@ -20,9 +24,9 @@ final class SetterMethod
         return $this->rules;
     }
 
-    #[Setup('@'.\Attributes\Classes\Collection\RuleTrim::class)]
-    #[Setup('@'.\Attributes\Classes\Collection\RuleMinMax::class)]
-    #[Setup('@'.\Attributes\Classes\Collection\RuleAlphabetOnly::class)]
+    #[Setup(new DiGet(RuleTrim::class))]
+    #[Setup(new DiGet(RuleMinMax::class))]
+    #[Setup(new DiGet(RuleAlphabetOnly::class))]
     public function addRule(RuleInterface $rule): void
     {
         $this->rules[] = $rule;
