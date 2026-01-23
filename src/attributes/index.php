@@ -28,29 +28,21 @@ use Attributes\Classes\TaggedKeys\TaggedCollection;
 use Attributes\Classes\TaggedKeys\Two;
 use Attributes\Classes\Variadic\RuleEngine;
 use Attributes\Classes\Variadic\RuleException;
-use Kaspi\DiContainer\DefinitionsLoader;
+use Kaspi\DiContainer\DiContainerBuilder;
 use Kaspi\DiContainer\DiContainerConfig;
-use Kaspi\DiContainer\DiContainerFactory;
-use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-$definitions = (new DefinitionsLoader(
-    importCacheFile: __DIR__ . '/../../var/attribute_definitions.php'
+$container = (new DiContainerBuilder(
+    new DiContainerConfig(useZeroConfigurationDefinition: false, useAttribute: true)
 ))
     ->load(...\glob(__DIR__ . '/config/*.php'))
     ->import('Attributes\Classes\\', __DIR__ . '/Classes/')
-    ->definitions();
-
-$container = (new DiContainerFactory(
-    new DiContainerConfig(
-        useZeroConfigurationDefinition: false
-    )
-))
-    ->make($definitions);
+    ->build()
+;
 
 (static function (MyClass $myClass) {
     print test_title('Test # 1 resolve build on argument');
@@ -108,7 +100,7 @@ $container = (new DiContainerFactory(
 
     try {
         $container->get(Circular::class);
-    } catch (CallCircularDependencyException) {
+    } catch (ContainerExceptionInterface) {
         print test_title('catch exception', '     🧲', 0);
     }
 
@@ -122,7 +114,7 @@ $container = (new DiContainerFactory(
     try {
         $container->get(ClassWithUnionTypeWithException::class);
     } catch (ContainerExceptionInterface $exception) {
-        \assert(str_contains($exception->getMessage(), 'Please specify the parameter type for the argument "$dependency"'));
+        \assert(str_contains((string) $exception, 'Please specify the Parameter #0'));
 
         print test_title('catch exception', '     🧲', 0);
     }
@@ -270,7 +262,7 @@ $container = (new DiContainerFactory(
     try {
         $taggedCollection->items->get('name.three');
     } catch (NotFoundExceptionInterface $e) {
-        \assert(str_starts_with($e->getMessage(), 'Definition "name.three" not found'));
+        \assert(str_starts_with($e->getMessage(), 'No entry was found for "name.three" identifier'));
         print test_title('catch exception', '     🧲', 0);
     }
 

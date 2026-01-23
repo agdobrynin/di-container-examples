@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Di\Classes\ClassFirst;
 use Di\Classes\ClassInterface;
+use Di\Classes\ClassWithEmptyType;
 use Di\Classes\ClassWithUnionType;
 use Di\Classes\DiFactoryPerson;
 use Di\Classes\MyEmployers;
@@ -19,7 +20,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use function Kaspi\DiContainer\{diAutowire, diGet};
+use function Kaspi\DiContainer\{diAutowire, diFactory, diGet};
 
 return static function (): \Generator {
     yield diAutowire(\PDO::class)
@@ -40,7 +41,7 @@ return static function (): \Generator {
     yield ClassFirst::class => diAutowire(ClassFirst::class)
         ->bindArguments(diGet('app.logger.file'));
 
-    yield Person::class => diAutowire(DiFactoryPerson::class);
+    yield Person::class => diFactory(DiFactoryPerson::class);
 
     yield diAutowire(Travel::class)
         // unsorted by name
@@ -50,10 +51,8 @@ return static function (): \Generator {
             travelTo: 'Moon',
         );
 
-    // test non type hint argument name for Di\Classes\ClassWithEmptyType::class
-    yield 'dependency' => static function (ContainerInterface $container) {
-        return $container->get(Travel::class);
-    };
+    yield diAutowire(ClassWithEmptyType::class)
+        ->bindArguments(diGet(Travel::class));
 
     yield diAutowire(RuleMinMax::class)
         // bind by index

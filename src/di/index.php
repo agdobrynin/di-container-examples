@@ -27,35 +27,27 @@ use Di\Classes\Variadic\RuleException;
 use Di\Classes\Zero\MainClass;
 use Di\Classes\Zero\RequiredClass;
 use Di\Classes\Zero\SubRequiredClass;
-use Kaspi\DiContainer\DefinitionsLoader;
+use Kaspi\DiContainer\DiContainerBuilder;
 use Kaspi\DiContainer\DiContainerConfig;
-use Kaspi\DiContainer\DiContainerFactory;
-use Kaspi\DiContainer\Exception\CallCircularDependencyException;
 use Kaspi\DiContainer\Interfaces\DiContainerInterface;
 use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
-$definitions = (new DefinitionsLoader(
-    importCacheFile: __DIR__ . '/../../var/di_definitions.php'
-))->load(
-    __DIR__ . '/config/services.php',
-    __DIR__ . '/config/service_employer.php',
-    __DIR__ . '/config/service_user.php',
-    __DIR__ . '/config/simple-data.php',
-    __DIR__ . '/config/service_collection.php',
-    __DIR__ . '/config/di_config_tag_key.php',
-)
-    ->import('Di\Classes\\', __DIR__ . '/Classes', useAttribute: false)
-    ->definitions();
-
-$container = (new DiContainerFactory(
-    new DiContainerConfig(
-        useZeroConfigurationDefinition: false,
-    )
+$container = (new DIContainerBuilder(
+    new DiContainerConfig(useZeroConfigurationDefinition: false, useAttribute: false)
 ))
-    ->make($definitions);
+    ->import('Di\Classes\\', __DIR__ . '/Classes')
+    ->load(
+        __DIR__ . '/config/services.php',
+        __DIR__ . '/config/service_employer.php',
+        __DIR__ . '/config/service_user.php',
+        __DIR__ . '/config/simple-data.php',
+        __DIR__ . '/config/service_collection.php',
+        __DIR__ . '/config/di_config_tag_key.php',
+    )
+    ->build();
 
 $rand = mt_rand();
 
@@ -150,7 +142,7 @@ $rand = mt_rand();
 
     try {
         $container->get(CircularFirstClass::class);
-    } catch (CallCircularDependencyException) {
+    } catch (ContainerExceptionInterface) {
         print test_title('Success', '✅', 0);
     }
 })($container);
@@ -169,7 +161,7 @@ $rand = mt_rand();
     try {
         $container->get(ClassWithUnionTypeWithException::class);
     } catch (ContainerExceptionInterface $exception) {
-        \assert(str_contains($exception->getMessage(), 'Please specify the parameter type for the argument "$dependency"'));
+        \assert(str_contains((string)$exception, 'Please specify the Parameter #0'));
         print test_title('catch exception', '     🧲', 0);
     }
 
@@ -334,7 +326,7 @@ $rand = mt_rand();
     try {
         $taggedCollection->items->get('name.three');
     } catch (NotFoundExceptionInterface $e) {
-        \assert(str_starts_with($e->getMessage(), 'Definition "name.three" not found'));
+        \assert(str_starts_with($e->getMessage(), 'No entry was found for "name.three" identifier'));
         print test_title('catch exception', '     🧲', 0);
     }
 
