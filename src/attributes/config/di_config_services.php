@@ -35,7 +35,7 @@ return static function (): \Generator {
     yield 'app.pdo' => diAutowire(PDO::class, isSingleton: true)
         ->bindArguments(dsn: diGet('sqlite.dsn'))
         // setup service via setter method
-        ->setup('setAttribute', attribute: \PDO::ATTR_CASE, value: \PDO::CASE_UPPER);
+        ->setup('setAttribute', ['attribute' => \PDO::ATTR_CASE, 'value' => \PDO::CASE_UPPER]);
 
     yield diAutowire(AppLogger::class)
         // bind by index

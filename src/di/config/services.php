@@ -27,7 +27,7 @@ return static function (): \Generator {
         // bind by name
         ->bindArguments(dsn: diGet('sqlite-dsn'))
         // setup service via setter method
-        ->setup('setAttribute', attribute: \PDO::ATTR_CASE, value: \PDO::CASE_UPPER);
+        ->setup('setAttribute', ['attribute' => \PDO::ATTR_CASE, 'value' => \PDO::CASE_UPPER]);
 
     yield LoggerInterface::class => static function (ContainerInterface $container) {
         return new Logger(
@@ -81,9 +81,9 @@ return static function (): \Generator {
         ->bindArguments(dependency: diGet(MyEmployers::class));
 
     yield diAutowire(SetterMethod::class)
-        ->setup('addRule', diGet(\Di\Classes\Collection\RuleTrim::class))
-        ->setup('addRule', diGet(\Di\Classes\Collection\RuleMinMax::class))
-        ->setup('addRule', diGet(\Di\Classes\Collection\RuleAlphabetOnly::class));
+        ->setup('addRule', [diGet(\Di\Classes\Collection\RuleTrim::class)])
+        ->setup('addRule', [diGet(\Di\Classes\Collection\RuleMinMax::class)])
+        ->setup('addRule', [diGet(\Di\Classes\Collection\RuleAlphabetOnly::class)]);
 
     yield diAutowire(SetterImmutableMethod::class)
         ->setupImmutable('withLogger');
